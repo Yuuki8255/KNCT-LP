@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- 予約完了ページは検索結果に出したくないので noindex -->
+<meta name="robots" content="noindex, nofollow">
+<title>面談の予約が完了しました｜KNCT UNIVERSITY</title>
+<meta name="description" content="面談の予約が完了しました。通話の前に、動画と準備事項を必ず確認してください。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="面談の予約が完了しました｜KNCT UNIVERSITY">
+<meta property="og:description" content="通話の前に、動画と準備事項を必ず確認してください。">
+<meta name="theme-color" content="#0A0A0B">
+<link rel="stylesheet" href="styles.css">
+<script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+
+<header class="site-head">
+  <div class="wrap head-inner">
+    <p class="brand">KNCT <span>UNIVERSITY</span></p>
+    <ol class="steps" aria-label="進捗">
+      <li class="step is-done"><span class="dot" aria-hidden="true"></span>予約</li>
+      <li class="step is-current"><span class="dot" aria-hidden="true"></span>準備</li>
+    </ol>
+  </div>
+</header>
+
+<main>
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero">
+    <div class="wrap">
+      <p class="badge" data-reveal>
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8.4l4 3.6L14 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        予約完了
+      </p>
+
+      <h1 data-reveal>面談の予約が<br><span class="nb">完了しました。</span></h1>
+
+      <p class="lead" data-reveal>
+        最初の一歩は、もう踏み出しました。<br>
+        あとは、<span class="nb">準備して当日に来るだけです。</span>
+      </p>
+
+      <p class="hero-cta" data-reveal>通話の前に、<span class="nb">下の動画を必ず見てください。</span></p>
+
+      <ul class="video-points" data-reveal>
+        <li>KNCT UNIVERSITY とは何か</li>
+        <li>面談で何を見ていくのか</li>
+        <li>どんな人に向いているのか</li>
+        <li>事前に準備しておいてほしいこと</li>
+      </ul>
+
+      <figure class="video" data-reveal>
+        <div class="video-frame" id="video-frame">
+          <div class="video-placeholder">
+            <span class="play" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M9 6.5l9 5.5-9 5.5z" fill="currentColor"/></svg>
+            </span>
+            <p class="video-placeholder-title">動画をここに入れます</p>
+            <p class="video-placeholder-note"><code>script.js</code> の <code>VIDEO_URL</code> に URL を入れると差し替わります</p>
+          </div>
+        </div>
+        <figcaption>この面談にどれだけ本気で準備してくるかで、面談の価値は変わります。</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ═══ カレンダー（URLに日時が渡された時だけ表示） ═══ -->
+  <section class="section section--calendar" id="calendar-section" hidden>
+    <div class="wrap">
+      <p class="kicker">あなたの面談</p>
+      <h2 class="h2">この日時で確定しています。</h2>
+      <div class="cal-card">
+        <p class="cal-date" id="cal-date"></p>
+        <p class="cal-meta" id="cal-meta"></p>
+        <div class="cal-actions">
+          <a class="btn btn--primary" id="cal-google" href="#" target="_blank" rel="noopener">Google カレンダーに追加</a>
+          <a class="btn" id="cal-apple" href="#" download="knct-meeting.ics">Apple / その他（.ics）</a>
+          <a class="btn" id="cal-outlook" href="#" target="_blank" rel="noopener">Outlook に追加</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 面談の前に ═══ -->
+  <section class="section">
+    <div class="wrap">
+      <p class="kicker" data-reveal>面談の前に</p>
+      <h2 class="h2" data-reveal>この3つだけ、<span class="nb">やっておいてください。</span></h2>
+
+      <ol class="numlist">
+        <li data-reveal>
+          <span class="num">01</span>
+          <h3>時間通りに来てください。</h3>
+          <p>この時間は、あなたのためだけに空けています。</p>
+        </li>
+        <li data-reveal>
+          <span class="num">02</span>
+          <h3>何を変えたいのかを、<span class="nb">はっきりさせてください。</span></h3>
+          <p>収入を増やしたい。<br>事業を立ち上げたい。<br>スキルを収益化したい。<br>発信を伸ばしたい。<br>発信者や企業の成長を手伝いたい。</p>
+          <p class="strong-line">どれなのか、決めてきてください。</p>
+        </li>
+        <li data-reveal>
+          <span class="num">03</span>
+          <h3>「行動の話」をする前提で<span class="nb">来てください。</span></h3>
+          <p>これは情報を聞くだけの場ではありません。</p>
+          <p>今どこにいて、どこへ行きたいのか。そして KNCT が本当に力になれるのか。そこを一緒に見極めます。</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ═══ 面談で話すこと ═══ -->
+  <section class="section section--alt">
+    <div class="wrap">
+      <p class="kicker" data-reveal>面談で話すこと</p>
+      <h2 class="h2" data-reveal>あなたが詰まっている場所を、<span class="nb">特定します。</span></h2>
+
+      <div class="grid grid--5">
+        <article class="card" data-reveal>
+          <h3>現在地</h3>
+          <p>今、何をやっているのか。</p>
+        </article>
+        <article class="card" data-reveal>
+          <h3>目標</h3>
+          <p>何を実現したいのか。</p>
+        </article>
+        <article class="card" data-reveal>
+          <h3>ボトルネック</h3>
+          <p>本当に止めているものは何か。</p>
+        </article>
+        <article class="card" data-reveal>
+          <h3>スキル</h3>
+          <p>すでに持っている、価値になり得るもの。</p>
+        </article>
+        <article class="card" data-reveal>
+          <h3>進む道</h3>
+          <p>自分の看板で立つのか、誰かの成長を支える側に回るのか。</p>
+        </article>
+      </div>
+
+      <p class="section-close" data-reveal>そのうえで、次に取るべき一手を提示します。</p>
+    </div>
+  </section>
+
+  <!-- ═══ 学ぶこと ═══ -->
+  <section class="section">
+    <div class="wrap">
+      <p class="kicker" data-reveal>KNCT UNIVERSITY で学ぶこと</p>
+      <h2 class="h2" data-reveal>KNCT は、<span class="nb">ただのコンテンツ講座では</span><span class="nb">ありません。</span></h2>
+      <p class="section-lead" data-reveal>今のインターネットビジネスが、実際にどう動いているのかを教えます。</p>
+
+      <div class="grid grid--2">
+        <article class="card card--lg" data-reveal>
+          <p class="card-index">01</p>
+          <h3>価値をつくる</h3>
+          <p>人が本当に困っていることを解決する。</p>
+        </article>
+        <article class="card card--lg" data-reveal>
+          <p class="card-index">02</p>
+          <h3>価値を伝える</h3>
+          <p>コンテンツ、ポジショニング、メッセージ、個人ブランド、セールス。</p>
+        </article>
+        <article class="card card--lg" data-reveal>
+          <p class="card-index">03</p>
+          <h3>価値を回収する</h3>
+          <p>オファー設計、集客、成約、収益化。</p>
+        </article>
+        <article class="card card--lg" data-reveal>
+          <p class="card-index">04</p>
+          <h3>裏側を回す</h3>
+          <p>仕組み、AI、納品、計測、改善。</p>
+        </article>
+      </div>
+
+      <div class="statement" data-reveal>
+        <p class="statement-kicker">目的は、ひとつです。</p>
+        <p class="statement-big">価値ある人間になる。</p>
+        <p class="statement-sub">自分の事業を立ち上げるか、<br>発信者や企業の成長を動かす側になるか。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 向いている人 ═══ -->
+  <section class="section section--alt">
+    <div class="wrap">
+      <p class="kicker" data-reveal>対象</p>
+      <h2 class="h2" data-reveal>KNCT が合うのは、<span class="nb">こういう人です。</span></h2>
+
+      <ul class="fitlist" data-reveal>
+        <li>今の状況のままで終わりたくないと、はっきり思っている</li>
+        <li>本気でビジネスを学ぶつもりがある</li>
+        <li>実行する覚悟がある</li>
+        <li>情報ではなく、実際に使えるスキルが欲しい</li>
+        <li>自分の事業をつくりたい、または誰かの成長を支えたい</li>
+        <li>結果に対して、自分で責任を取れる</li>
+      </ul>
+
+      <div class="notfit" data-reveal>
+        <p class="notfit-label">逆に、合いません。</p>
+        <p>近道・不労所得・全部代わりにやってくれる誰かを探しているなら、ここではありません。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ なぜ止まるのか ═══ -->
+  <section class="section">
+    <div class="wrap">
+      <p class="kicker" data-reveal>本題</p>
+      <h2 class="h2" data-reveal>足りていないのは、<span class="nb">情報ではありません。</span></h2>
+
+      <ul class="missing" data-reveal>
+        <li>明確さ</li>
+        <li>実行</li>
+        <li>フィードバック</li>
+        <li>仕組み</li>
+      </ul>
+
+      <p class="body-block" data-reveal>
+        コンテンツを見る。<br>
+        投稿を保存する。<br>
+        教材を買う。<br>
+        そして、データが取れるところまで動かないまま終わる。
+      </p>
+
+      <p class="section-lead" data-reveal>KNCT の中では、順番が違います。</p>
+
+      <ol class="chain" data-reveal>
+        <li>学ぶ</li>
+        <li>実行する</li>
+        <li>計測する</li>
+        <li>フィードバックを受ける</li>
+        <li>改善する</li>
+      </ol>
+
+      <p class="section-close" data-reveal>スキルが結果に変わるのは、<span class="nb">この流れの中だけです。</span></p>
+    </div>
+  </section>
+
+  <!-- ═══ 実績 ═══ -->
+  <section class="section section--alt">
+    <div class="wrap">
+      <p class="kicker" data-reveal>実績</p>
+      <h2 class="h2" data-reveal>すでに、この型で<span class="nb">動いている人がいます。</span></h2>
+
+      <div class="grid grid--3 proofs">
+        <article class="proof" data-reveal>
+          <p class="proof-name">Husky</p>
+          <dl>
+            <dt>Before</dt><dd>フィットネスのアカウントを新しく立ち上げた段階。</dd>
+            <dt>変えたこと</dt><dd>発信の設計と、マネタイズまでの導線を組み直した。</dd>
+          </dl>
+          <p class="proof-result proof-result--num"><span class="proof-num">約80万円</span><span class="proof-unit">／ 約30日</span></p>
+        </article>
+
+        <article class="proof" data-reveal>
+          <p class="proof-name">Yuuki</p>
+          <dl>
+            <dt>Before</dt><dd>発信はあるが、売上に繋がっていない状態。</dd>
+            <dt>変えたこと</dt><dd>ポジショニングとオファーを作り直し、売れる形に組み替えた。</dd>
+          </dl>
+          <p class="proof-result proof-result--num"><span class="proof-num">100万円</span><span class="proof-unit">／ 最初の30日</span></p>
+        </article>
+
+        <article class="proof" data-reveal>
+          <p class="proof-name">Shoko</p>
+          <dl>
+            <dt>Before</dt><dd>発信の対象が広すぎて、誰にも刺さっていなかった。</dd>
+            <dt>変えたこと</dt><dd>ニッチを絞り込み、届ける相手を一人に定めた。</dd>
+          </dl>
+          <p class="proof-result proof-result--num"><span class="proof-num">100万円</span><span class="proof-unit">／ 1ヶ月</span></p>
+        </article>
+
+        <article class="proof" data-reveal>
+          <p class="proof-name">Hina</p>
+          <dl>
+            <dt>Before</dt><dd>表に立って発信する側ではなかった。</dd>
+            <dt>変えたこと</dt><dd>発信者の裏側に回り、運用と成長支援で価値を出した。</dd>
+          </dl>
+          <p class="proof-result proof-result--text">発信者の裏側で、継続的に成果を出す立ち位置を確立。</p>
+        </article>
+
+        <article class="proof" data-reveal>
+          <p class="proof-name">Shota</p>
+          <dl>
+            <dt>Before</dt><dd>ポジションが定まらず、伸び方が頭打ちだった。</dd>
+            <dt>変えたこと</dt><dd>ポジショニングと事業の仕組みを整えた。</dd>
+          </dl>
+          <p class="proof-result proof-result--text">売上が大きく伸び、新しい機会にも繋がった。</p>
+        </article>
+      </div>
+
+      <p class="disclaimer" data-reveal>※ 記載の内容は個人の実績であり、成果を保証するものではありません。結果には個人差があります。</p>
+    </div>
+  </section>
+
+  <!-- ═══ リフレーム ═══ -->
+  <section class="section">
+    <div class="wrap">
+      <p class="kicker" data-reveal>面談の前に、ひとつだけ</p>
+      <h2 class="h2" data-reveal>持ってくる質問を、<span class="nb">変えてください。</span></h2>
+
+      <div class="qa" data-reveal>
+        <blockquote class="q q--bad">
+          <p class="q-mark" aria-hidden="true">✕</p>
+          <p>「どの教材がもらえるんですか？」</p>
+        </blockquote>
+        <blockquote class="q q--good">
+          <p class="q-mark" aria-hidden="true">✓</p>
+          <p>「自分はどのスキルを身につければ、<span class="nb">価値ある人間になれますか？」</span></p>
+        </blockquote>
+      </div>
+
+      <p class="section-lead" data-reveal>結局、ゲームはこれだけです。</p>
+
+      <ul class="skills" data-reveal>
+        <li>問題を見つける</li>
+        <li>問題を解決する</li>
+        <li>解決策を伝える</li>
+        <li>解決策を収益化する</li>
+        <li>結果を計測する</li>
+      </ul>
+
+      <p class="section-close" data-reveal>KNCT は、<span class="nb">この5つのためだけに</span><span class="nb">作られています。</span></p>
+    </div>
+  </section>
+
+  <!-- ═══ 最後の確認 ═══ -->
+  <section class="section section--final">
+    <div class="wrap">
+      <p class="kicker" data-reveal>最後に</p>
+      <h2 class="h2" data-reveal>予約は、確定しています。</h2>
+
+      <ul class="checklist" data-reveal>
+        <li>カレンダーに入れる</li>
+        <li>静かな場所から繋ぐ</li>
+        <li>カメラはONにする</li>
+        <li>今どこにいて、どこへ行きたいのかを、<span class="nb">正直に話せる状態で来る</span></li>
+      </ul>
+
+      <p class="body-block" data-reveal>
+        KNCT が力になれると判断したら、<span class="nb">次のステップを説明します。</span><br>
+        力になれないと判断したら、<span class="nb">はっきりそう伝えます。</span>
+      </p>
+
+      <p class="final-big" data-reveal>では、面談で。</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <p class="brand">KNCT <span>UNIVERSITY</span></p>
+    <p class="foot-tag">発信する人ではなく、売上を作る人へ。</p>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
