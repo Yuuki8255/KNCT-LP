@@ -267,6 +267,12 @@ const CONFIG = {
     );
 
     targets.forEach((el, i) => {
+      // 最初から画面に入っているものは、待たずにそのまま表示する
+      // （アプリ内ブラウザで observer の初回通知が遅れても真っ白にならないように）
+      if (el.getBoundingClientRect().top < window.innerHeight) {
+        el.classList.add("is-in");
+        return;
+      }
       el.style.transitionDelay = Math.min(i % 6, 4) * 55 + "ms";
       observer.observe(el);
     });
