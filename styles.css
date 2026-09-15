@@ -15,10 +15,11 @@
   --ink:        #111827;   /* 見出し */
   --body:       #4B5563;   /* 本文 */
 
-  /* アクセント */
-  --green:      #0B755C;   /* 明るい面のラベル */
-  --green-soft: #86D08C;   /* 大きい数字 */
-  --peach:      #FCD8CA;   /* 濃い面のラベル */
+  /* アクセント（ティファニーブルー） */
+  --tiffany:      #81D8D0;  /* ティファニーブルー。左の縦線・枠・再生ボタン */
+  --tiffany-mid:  #17A29B;  /* 大きい数字。白の上でも見えるよう少し濃く */
+  --tiffany-deep: #0C7F7A;  /* ラベル文字・チェックマーク。白の上で読める濃さ */
+  --peach:        #FCD8CA;  /* 濃い面のラベル */
 
   /* 濃い面の上の文字 */
   --on-dark:      #CFE6E1;
@@ -58,7 +59,7 @@ ul, ol { padding: 0; list-style: none; }
 img, svg { max-width: 100%; }
 strong { color: var(--ink); font-weight: 700; }
 a { color: inherit; }
-:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; border-radius: 4px; }
+:focus-visible { outline: 2px solid var(--tiffany-deep); outline-offset: 3px; border-radius: 4px; }
 
 code {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
@@ -109,7 +110,7 @@ code {
   font-weight: 700;
   letter-spacing: .16em;
   line-height: 1.6;
-  color: var(--green);
+  color: var(--tiffany-deep);
   margin-bottom: 20px;
 }
 .eyebrow--onDark { color: var(--peach); }
@@ -171,7 +172,7 @@ h1 {
   place-items: center;
   width: 62px; height: 62px;
   border-radius: 50%;
-  background: var(--green-soft);
+  background: var(--tiffany);
   color: var(--teal);
   margin-bottom: 10px;
 }
@@ -215,11 +216,11 @@ h2 {
   color: var(--ink);
 }
 
-/* 左に緑の線が入る強調ブロック */
+/* 左にティファニーブルーの線が入る強調ブロック */
 .callout {
   margin-top: 40px;
   max-width: var(--measure);
-  border-left: 4px solid var(--green-soft);
+  border-left: 4px solid var(--tiffany);
   border-radius: 0 8px 8px 0;
   background: var(--light);
   padding: 18px 22px;
@@ -255,7 +256,7 @@ h2 {
   font-size: clamp(34px, 8vw, 46px);
   font-weight: 600;
   line-height: 1;
-  color: var(--green-soft);
+  color: var(--tiffany-mid);
   min-width: 1.1em;
 }
 .numlist h3 {
@@ -310,8 +311,8 @@ h2 {
   left: 6px;
   top: 1.38em;
   width: 15px; height: 8px;
-  border-left: 2.5px solid var(--green);
-  border-bottom: 2.5px solid var(--green);
+  border-left: 2.5px solid var(--tiffany-deep);
+  border-bottom: 2.5px solid var(--tiffany-deep);
   transform: rotate(-45deg);
 }
 .checklist--tight li { padding-block: 15px; }
@@ -347,7 +348,7 @@ h2 {
   position: relative;
   background: var(--white);
   border: 1px solid var(--border);
-  border-left: 4px solid var(--green-soft);
+  border-left: 4px solid var(--tiffany);
   border-radius: 0 10px 10px 0;
   padding: 15px 20px;
   font-family: var(--ff-display);
@@ -370,7 +371,7 @@ h2 {
   font-weight: 700;
   letter-spacing: .1em;
   line-height: 1;
-  color: var(--green);
+  color: var(--tiffany-deep);
   margin-bottom: 20px;
 }
 .proof dl { display: grid; gap: 16px; }
@@ -429,8 +430,8 @@ h2 {
 }
 .q--bad { color: #9CA3AF; }
 .q--bad .q-mark { color: #9CA3AF; }
-.q--good { color: var(--ink); border-color: var(--green-soft); }
-.q--good .q-mark { color: var(--green); }
+.q--good { color: var(--ink); border-color: var(--tiffany); }
+.q--good .q-mark { color: var(--tiffany-deep); }
 
 /* ── カレンダー ─────────────────────────────── */
 .cal-card { margin-top: 36px; max-width: 800px; }
@@ -525,7 +526,7 @@ h2 {
   }
   .chain li {
     border-left: 1px solid var(--border);
-    border-top: 4px solid var(--green-soft);
+    border-top: 4px solid var(--tiffany);
     border-radius: 0 0 10px 10px;
     text-align: center;
     font-size: 15px;
