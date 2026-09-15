@@ -244,41 +244,6 @@ const CONFIG = {
     section.hidden = false;
   }
 
-  /* ── スクロールで表示 ────────────────────────────────── */
-
-  function mountReveal() {
-    const targets = document.querySelectorAll("[data-reveal]");
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    if (reduced || !("IntersectionObserver" in window)) {
-      targets.forEach((el) => el.classList.add("is-in"));
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          entry.target.classList.add("is-in");
-          observer.unobserve(entry.target);
-        });
-      },
-      { rootMargin: "0px 0px -8% 0px", threshold: 0.05 }
-    );
-
-    targets.forEach((el, i) => {
-      // 最初から画面に入っているものは、待たずにそのまま表示する
-      // （アプリ内ブラウザで observer の初回通知が遅れても真っ白にならないように）
-      if (el.getBoundingClientRect().top < window.innerHeight) {
-        el.classList.add("is-in");
-        return;
-      }
-      el.style.transitionDelay = Math.min(i % 6, 4) * 55 + "ms";
-      observer.observe(el);
-    });
-  }
-
   mountVideo();
   mountCalendar();
-  mountReveal();
 })();
