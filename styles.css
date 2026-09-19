@@ -110,21 +110,13 @@ code {
   padding-block: 20px;
   padding-top: calc(20px + env(safe-area-inset-top));
 }
-.brand {
-  display: inline-flex;
-  flex-direction: column;
-  gap: 1px;
-  font-family: var(--ff-display);
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 1.15;
-  letter-spacing: .06em;
-  color: var(--white);
-  background: var(--ink);
-  padding: 8px 10px;
-  border-radius: 4px;
+.brand { line-height: 0; }
+/* 元データが 130x64 なので、それ以上に拡大しない（拡大すると眠くなる） */
+.brand img {
+  display: block;
+  width: 91px;
+  height: auto;
 }
-.brand span { font-weight: 500; }
 
 /* ── HERO ──────────────────────────────────── */
 .hero {
@@ -610,14 +602,14 @@ h2 {
   padding-block: 56px calc(56px + env(safe-area-inset-bottom));
   text-align: center;
 }
-.foot-brand {
-  font-family: var(--ff-display);
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: .18em;
-  color: var(--on-dark-mute);
+.foot-brand { line-height: 0; }
+.foot-brand img {
+  display: inline-block;
+  width: 84px;
+  height: auto;
+  opacity: .72;
 }
-.foot-tag { margin-top: 8px; font-size: 13px; color: var(--on-dark-mute); }
+.foot-tag { margin-top: 16px; font-size: 13px; color: var(--on-dark-mute); }
 
 /* ── レスポンシブ ───────────────────────────── */
 /* 狭い幅では、デスクトップ前提で入れた強制改行を無効化する */
