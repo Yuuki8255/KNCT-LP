@@ -125,7 +125,10 @@ const CONFIG = {
     if (/^\d{10}$/.test(value)) return validDate(new Date(Number(value) * 1000));
     if (/^\d{13}$/.test(value)) return validDate(new Date(Number(value)));
 
-    let text = value.replace(/\s+/, "T");
+    // 2026/09/20 のようなスラッシュ区切りも受け付ける
+    let text = value.replace(/\//g, "-").replace(/\s+/, "T");
+    // 日付だけなら 00:00 を補う
+    if (/^\d{4}-\d{2}-\d{2}$/.test(text)) text += "T00:00";
     // タイムゾーンの指定が無ければ日本時間とみなす
     if (!/(Z|[+-]\d{2}:?\d{2})$/i.test(text)) text += "+09:00";
     return validDate(new Date(text));
@@ -156,48 +159,10 @@ const CONFIG = {
     return date.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
   }
 
-  function escapeIcs(text) {
-    return String(text)
-      .replace(/\\/g, "\\\\")
-      .replace(/;/g, "\;")
-      .replace(/,/g, "\\,")
-      .replace(/\r?\n/g, "\\n");
-  }
-
-  function buildIcs(start, end) {
-    const lines = [
-      "BEGIN:VCALENDAR",
-      "VERSION:2.0",
-      "PRODID:-//KNCT UNIVERSITY//Call Confirmed//JA",
-      "CALSCALE:GREGORIAN",
-      "METHOD:PUBLISH",
-      "BEGIN:VEVENT",
-      "UID:" + toUtcStamp(start) + "-knct@joinknct.com",
-      "DTSTAMP:" + toUtcStamp(new Date()),
-      "DTSTART:" + toUtcStamp(start),
-      "DTEND:" + toUtcStamp(end),
-      "SUMMARY:" + escapeIcs(CONFIG.EVENT_TITLE),
-      "DESCRIPTION:" + escapeIcs(CONFIG.EVENT_DETAILS),
-      "LOCATION:" + escapeIcs(CONFIG.EVENT_LOCATION),
-      "BEGIN:VALARM",
-      "TRIGGER:-PT30M",
-      "ACTION:DISPLAY",
-      "DESCRIPTION:" + escapeIcs(CONFIG.EVENT_TITLE),
-      "END:VALARM",
-      "END:VEVENT",
-      "END:VCALENDAR",
-    ];
-    // ICS は CRLF 改行
-    return lines.join("\r\n") + "\r\n";
-  }
-
-  function icsHref(text) {
-    try {
-      const blob = new Blob([text], { type: "text/calendar;charset=utf-8" });
-      return URL.createObjectURL(blob);
-    } catch (_) {
-      return "data:text/calendar;charset=utf-8," + encodeURIComponent(text);
-    }
+  // .ics の生成は /api/ics（サーバー側）に任せています。
+  // ブラウザ内で blob を作る方法だと、LINEのアプリ内ブラウザで保存が始まらないためです。
+  function icsUrl(params) {
+    return "/api/ics?" + params.toString();
   }
 
   function mountCalendar() {
@@ -205,8 +170,16 @@ const CONFIG = {
     if (!section) return;
 
     const params = new URLSearchParams(location.search);
-    const start = parseDate(firstParam(params, START_KEYS));
-    if (!start) return; // 日時が渡されていなければ、セクションごと出さない
+    const rawStart = firstParam(params, START_KEYS);
+    const start = parseDate(rawStart);
+    if (!start) {
+      // 日時が渡されていなければ、セクションごと出さない
+      if (rawStart) {
+        console.warn("[KNCT] 面談日時を解釈できませんでした:", rawStart,
+          "— 例: ?start=2026-09-20T14:00");
+      }
+      return;
+    }
 
     let end = parseDate(firstParam(params, END_KEYS));
     if (!end || end <= start) {
@@ -237,9 +210,14 @@ const CONFIG = {
       "&body=" + encodeURIComponent(CONFIG.EVENT_DETAILS) +
       "&location=" + encodeURIComponent(CONFIG.EVENT_LOCATION);
 
+    const icsParams = new URLSearchParams({
+      start: start.toISOString(),
+      end: end.toISOString(),
+    });
+
     document.getElementById("cal-google").href = googleUrl;
     document.getElementById("cal-outlook").href = outlookUrl;
-    document.getElementById("cal-apple").href = icsHref(buildIcs(start, end));
+    document.getElementById("cal-apple").href = icsUrl(icsParams);
 
     section.hidden = false;
   }

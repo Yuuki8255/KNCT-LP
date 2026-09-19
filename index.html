@@ -17,10 +17,12 @@
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-<meta name="theme-color" content="#00353B">
+<meta name="theme-color" content="#FFFFFF">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=DM+Sans:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<!-- 欧文のみ。和文は端末標準（iPhone=ヒラギノ）に任せる。
+     Zen Kaku Gothic New を足すとこのCSSが5KB→345KBになり、LINE内ブラウザで表示が遅れる -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=DM+Sans:wght@400;500;700&display=swap">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -42,13 +44,19 @@
 面談の前に、ほぼ全員が同じ質問を持っています。それを先に動画で話しました。当日の時間を、基本の説明ではなく<strong>あなたの状況そのもの</strong>に使うためです。
       </p>
 
+      <p class="notice">
+面談の枠は、ひとりずつ個別に空けています。都合が悪くなったときは、欠席ではなく<strong>事前にLINEで一言ください</strong>。日程は組み直せます。連絡のないまま欠席された場合、今後のご予約をお受けできなくなることがあります。
+      </p>
+
+      <p class="steplabel"><span>STEP 1 / 3</span>まず、この動画を見てください</p>
+
       <div class="video-frame" id="video-frame">
         <div class="video-placeholder">
           <span class="play" aria-hidden="true">
             <svg viewBox="0 0 24 24"><path d="M9 6.5l9 5.5-9 5.5z" fill="currentColor"/></svg>
           </span>
-          <p class="video-placeholder-title">動画をここに入れます</p>
-          <p class="video-placeholder-note"><code>script.js</code> の <code>VIDEO_URL</code> に URL を入れると差し替わります</p>
+          <p class="video-placeholder-title">動画は準備中です</p>
+          <p class="video-placeholder-note">当日までにこのページをもう一度ご確認ください。</p>
         </div>
       </div>
     </div>
@@ -239,7 +247,7 @@
 
       <div class="proofs">
         <article class="card proof">
-          <p class="proof-name">Husky</p>
+          <h3 class="proof-name">Husky</h3>
           <dl>
             <dt>Before</dt><dd>フィットネスのアカウントを新しく立ち上げた段階。</dd>
             <dt>変えたこと</dt><dd>発信の設計と、マネタイズまでの導線を組み直した。</dd>
@@ -248,7 +256,7 @@
         </article>
 
         <article class="card proof">
-          <p class="proof-name">Yuuki</p>
+          <h3 class="proof-name">Yuuki</h3>
           <dl>
             <dt>Before</dt><dd>発信はあるが、売上に繋がっていない状態。</dd>
             <dt>変えたこと</dt><dd>ポジショニングとオファーを作り直し、売れる形に組み替えた。</dd>
@@ -257,7 +265,7 @@
         </article>
 
         <article class="card proof">
-          <p class="proof-name">Shoko</p>
+          <h3 class="proof-name">Shoko</h3>
           <dl>
             <dt>Before</dt><dd>発信の対象が広すぎて、誰にも刺さっていなかった。</dd>
             <dt>変えたこと</dt><dd>ニッチを絞り込み、届ける相手を一人に定めた。</dd>
@@ -266,7 +274,7 @@
         </article>
 
         <article class="card proof">
-          <p class="proof-name">Hina</p>
+          <h3 class="proof-name">Hina</h3>
           <dl>
             <dt>Before</dt><dd>表に立って発信する側ではなかった。</dd>
             <dt>変えたこと</dt><dd>発信者の裏側に回り、運用と成長支援で価値を出した。</dd>
@@ -275,7 +283,7 @@
         </article>
 
         <article class="card proof">
-          <p class="proof-name">Shota</p>
+          <h3 class="proof-name">Shota</h3>
           <dl>
             <dt>Before</dt><dd>ポジションが定まらず、伸び方が頭打ちだった。</dd>
             <dt>変えたこと</dt><dd>ポジショニングと事業の仕組みを整えた。</dd>
@@ -296,11 +304,11 @@
 
       <div class="qa">
         <blockquote class="q q--bad">
-          <p class="q-mark" aria-hidden="true">✕</p>
+          <p class="q-mark"><span aria-hidden="true">✕</span><span class="sr-only">悪い例</span></p>
           <p>「どの教材がもらえるんですか？」</p>
         </blockquote>
         <blockquote class="q q--good">
-          <p class="q-mark" aria-hidden="true">✓</p>
+          <p class="q-mark"><span aria-hidden="true">✓</span><span class="sr-only">良い例</span></p>
           <p>「自分はどのスキルを身につければ、価値ある人間になれますか？」</p>
         </blockquote>
       </div>
@@ -316,6 +324,62 @@
       </ul>
 
       <p class="callout">KNCT は、この5つのためだけに作られています。</p>
+    </div>
+  </section>
+
+
+  <!-- ═══ よくある質問 ═══ -->
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow">面談の前に</p>
+      <h2>みんなが最初に<br>聞くことです。</h2>
+
+      <div class="faq">
+        <details open>
+          <summary>面談では、何を聞かれますか。</summary>
+          <div class="faq-a">
+            <p>今どこにいて、どこへ行きたいのか。そして何が止まっているのか。この3つです。うまく言葉にできなくても構いません。整理するところから、一緒にやります。</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>まだ何も決まっていません。それでも大丈夫ですか。</summary>
+          <div class="faq-a">
+            <p>決めてから来る必要はありません。決まっていない場所を特定するのが、この面談の役割です。迷っているところを、そのまま持ってきてください。</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>売り込まれるのではないかと、少し不安です。</summary>
+          <div class="faq-a">
+            <p>合うかどうかを、お互いに確かめる場です。こちらが合わないと判断したら、その場ではっきり伝えます。進むかどうかを決めるのは、最後まであなたです。</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>カメラはONにする必要がありますか。</summary>
+          <div class="faq-a">
+            <p>はい、ONでお願いします。顔が見えたほうが、話は早く進みます。静かで、そのまま話せる場所から繋いでください。移動中や仕事の合間は避けてください。</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>予定が変わって、その時間に出られなくなったときは。</summary>
+          <div class="faq-a">
+            <p>できるだけ早く、LINEで一言ください。日程は組み直せます。連絡のないまま欠席された場合は、今後のご予約をお受けできないことがあります。</p>
+          </div>
+        </details>
+
+        <!-- ▼ 事実が確定したら、このコメントを外して使ってください
+        <details>
+          <summary>どのくらい時間がかかりますか。何で話しますか。</summary>
+          <div class="faq-a">
+            <p>所要時間は約◯◯分です。通話は ◯◯◯（Zoom / Google Meet / LINE通話 など）で行います。
+               通話のURLは ◯◯◯（LINE / メール）でお送りします。前後に予定を詰めず、落ち着いて話せる状態で来てください。</p>
+          </div>
+        </details>
+        ▲ -->
+      </div>
     </div>
   </section>
 
