@@ -124,3 +124,23 @@ Google Fonts から読み込んでいます。1つのフォント指定の中で
 - **Vercel / Netlify** … このリポジトリを繋ぐだけでデプロイされます
 - **GitHub Pages** … リポジトリ設定の Pages で公開ブランチを指定します
 - レンタルサーバー … 3ファイルをそのまま FTP でアップロードするだけでも動きます
+
+---
+
+## 5. 公開先
+
+| | |
+|---|---|
+| 本番URL | https://knct-lp.vercel.app/ |
+| Vercelプロジェクト | `knct-lp`（KNCT University チーム） |
+| 本番ブランチ | `main` |
+| リポジトリ | https://github.com/Yuuki8255/KNCT-LP |
+
+`main` に push すると Vercel が自動で本番デプロイします。それ以外のブランチに push した場合は
+プレビューURLが発行されるだけで、本番は差し替わりません。
+
+### 独自ドメインを付ける場合
+
+Vercel のプロジェクト設定 → Domains でドメインを追加したあと、`index.html` の
+`og:url` と `og:image` の2行を新しいドメインに書き換えてください。
+LINE でリンクを送った時のプレビュー画像がこの2行を見ています。
