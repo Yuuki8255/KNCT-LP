@@ -33,7 +33,9 @@
   --pad: 24px;
   --r: 16px;
 
-  /* 和文は Zen Kaku Gothic New、欧文は Poppins / DM Sans に振り分ける */
+  /* 欧文は Poppins / DM Sans（Google Fonts から読み込み）。
+     和文は端末標準に任せる。Zen Kaku Gothic New は端末に入っていれば使うだけで、
+     ウェブフォントとしては読み込んでいない（CSS が 345KB になるため） */
   --ff-display: "Poppins", "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN",
                 "Hiragino Sans", "Noto Sans JP", "Yu Gothic Medium", Meiryo, sans-serif;
   --ff-body:    "DM Sans", "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN",
