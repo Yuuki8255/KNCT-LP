@@ -1,24 +1,41 @@
 /* ══════════════════════════════════════════════════════════════
    KNCT UNIVERSITY — 面談予約完了ページ
-   joinknct.com の配色・書体・パーツに合わせてあります。
+   一番上（ロゴ・見出し・動画）は joinknct.com と同じ黒、そこから下は白。
+   アクセントはティファニーブルー。
    色を変えたい時は :root のトークンだけ触れば全体に反映されます。
    ══════════════════════════════════════════════════════════════ */
 
 :root {
-  /* 面 */
-  --bg:         #000000;   /* 地。joinknct.com と同じ純黒 */
-  --surface:    #17171B;   /* カード */
-  --surface-2:  #131317;   /* カードのグラデ下側 */
+  /* 面（ヒーローから下の、明るい部分） */
+  --paper:      #FFFFFF;   /* 白。ヒーローの中でも上書きしない */
+  --bg:         var(--paper);
+  --bg-alt:     #F6F4EF;   /* 交互に敷く帯。ロゴのクリームをごく薄くした色 */
+  --surface:    #FFFFFF;   /* カード */
 
   /* 線 */
-  --line:       rgba(236,231,211,.14);  /* クリーム寄りの罫。カードの枠 */
-  --line-soft:  rgba(255,255,255,.07);
+  --line:       #E5E1D7;   /* カードの枠・罫 */
+  --line-soft:  #EDEAE3;
 
   /* 文字 */
-  --white:      #FFFFFF;   /* 見出し */
-  --cream:      #ECE7D3;   /* ブランドカラー。ロゴと同じ */
-  --text:       #B5B5B8;   /* 本文。黒地で 8.9:1 */
-  --muted:      #8C8C90;   /* 補足。黒地で 5.5:1 */
+  --heading:    #111315;   /* 見出し */
+  --text:       #33373D;   /* 本文。白地で 12:1 */
+  --muted:      #62666D;   /* 補足。白地で 5.8:1 / 帯で 5.3:1 */
+
+  /* ブランド */
+  --cream:      #ECE7D3;   /* ロゴと同じ色（ロゴは画像なので、色を合わせたい時の参照用） */
+
+  /* アクセント（ティファニーブルー）。役割ごとに濃さを分けている。
+     #81D8D0 そのものは白地だと 1.6:1 しかないので、文字には濃い方を使う */
+  --tiffany:      #81D8D0;  /* 塗り（バッジ・番号・チェック）・線 */
+  --tiffany-mid:  #17A29B;  /* 大きい数字（白地で 3.1:1。大きい文字の基準 3:1 を満たす） */
+  --tiffany-deep: #0B7A75;  /* 小さい文字・アイコン（白地 5.2:1 / 帯 4.7:1） */
+  --tiffany-tint: #E7F6F4;  /* 薄く敷く面 */
+  --on-tiffany:   #06302D;  /* ティファニーの塗りの上に乗せる文字（8.6:1） */
+
+  --em:     var(--tiffany-deep);      /* 見出しの <em> */
+  --marker: rgba(129,216,208,.55);    /* 強調の下に引く蛍光ペン */
+  --focus:  var(--tiffany-deep);
+  --shadow: 0 1px 2px rgba(17,19,21,.04), 0 14px 34px -20px rgba(17,19,21,.22);
 
   --maxw: 1080px;
   --measure: 640px;   /* 中央寄せ本文の読みやすい幅 */
@@ -29,7 +46,26 @@
   --ff: "Inter", "Hiragino Kaku Gothic ProN", "Hiragino Sans",
         "Noto Sans JP", "Yu Gothic Medium", Meiryo, sans-serif;
 
+  color-scheme: light;
+}
+
+/* 黒い面（ヒーロー・フッター）。
+   トークンを上書きするだけで、同じパーツがそのまま黒地用になる */
+.hero,
+.site-foot {
+  --bg:        #000000;
+  --surface:   #17171B;
+  --line:      rgba(236,231,211,.16);
+  --line-soft: rgba(255,255,255,.08);
+  --heading:   #FFFFFF;
+  --text:      #D4D4D8;   /* 黒地で 14:1 */
+  --muted:     #A3A3A9;   /* 黒地で 8.4:1 */
+  --em:        var(--tiffany);
+  --marker:    rgba(129,216,208,.34);
+  --focus:     var(--tiffany);
   color-scheme: dark;
+  background: var(--bg);
+  color: var(--text);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -54,13 +90,24 @@ h1, h2, h3, p, ul, ol, dl, dd { margin: 0; }
 ul, ol { padding: 0; list-style: none; }
 img { max-width: 100%; }
 a { color: inherit; }
-em { font-style: normal; color: var(--cream); }
-strong { color: var(--white); font-weight: 700; }
-:focus-visible { outline: 2px solid var(--cream); outline-offset: 3px; border-radius: 4px; }
+em { font-style: normal; color: var(--em); }
+/* 蛍光ペンのように、文字の下半分だけ色を敷く */
+strong {
+  color: var(--heading);
+  font-weight: 700;
+  background: linear-gradient(transparent 60%, var(--marker) 60%);
+  padding-inline: .08em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; border-radius: 4px; }
+
+/* 最後の行に1〜2文字だけ残る「泣き別れ」を避ける（対応ブラウザのみ。非対応でも崩れない） */
+p, li, dd, summary { text-wrap: pretty; }
 
 /* 和文を語句の切れ目で折り返すためのユーティリティ。
    幅が足りれば1行、足りなければ指定した位置で改行される */
-.nb { display: inline-block; }
+.nb { display: inline-block; max-width: 100%; }
 
 .sr-only {
   position: absolute;
@@ -85,37 +132,38 @@ strong { color: var(--white); font-weight: 700; }
 
 /* ── 共通パーツ ─────────────────────────────── */
 
-/* ドット付きのピルラベル */
+/* セクションの頭に置く、ドット付きのピルラベル */
 .badge {
   display: inline-flex;
   align-items: center;
   gap: 9px;
-  padding: 9px 20px;
-  border: 1px solid var(--line);
+  padding: 9px 18px;
+  border: 1px solid rgba(11,122,117,.18);
   border-radius: 100px;
-  background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.01));
-  color: var(--cream);
-  font-size: 11px;
-  font-weight: 700;
+  background: var(--tiffany-tint);
+  color: var(--tiffany-deep);
+  font-size: 11.5px;
+  font-weight: 800;
   letter-spacing: .2em;
   line-height: 1;
   text-transform: uppercase;
 }
 .badge .dot {
-  width: 5px; height: 5px;
+  width: 6px; height: 6px;
   border-radius: 50%;
-  background: var(--cream);
-  box-shadow: 0 0 10px rgba(236,231,211,.8);
+  background: var(--tiffany-mid);
+  box-shadow: 0 0 0 3px rgba(23,162,155,.18);
 }
-/* 強調したいものはクリームで塗る */
+/* 強調したいものはティファニーで塗る */
 .badge--solid {
-  background: var(--cream);
-  border-color: var(--cream);
-  color: #14140F;
+  background: var(--tiffany);
+  border-color: var(--tiffany);
+  color: var(--on-tiffany);
   letter-spacing: .12em;
   text-transform: none;
-  font-size: 12px;
+  font-size: 12.5px;
   padding: 10px 20px;
+  box-shadow: 0 10px 30px -12px rgba(129,216,208,.55);
 }
 .badge--solid .badge-check { width: 13px; height: 13px; }
 
@@ -134,7 +182,7 @@ h1 {
   font-weight: 700;
   line-height: 1.46;
   letter-spacing: .01em;
-  color: var(--white);
+  color: var(--heading);
 }
 
 h2 {
@@ -143,42 +191,49 @@ h2 {
   font-weight: 700;
   line-height: 1.5;
   letter-spacing: .01em;
-  color: var(--white);
+  color: var(--heading);
 }
 
 .lead {
   margin: 26px auto 0;
   max-width: var(--measure);
-  font-size: clamp(15px, 4vw, 17px);
+  font-size: clamp(16px, 4.1vw, 17.5px);
   line-height: 1.95;
 }
-.lead--sm { font-size: clamp(14.5px, 3.8vw, 16px); }
+.lead--sm { font-size: clamp(15.5px, 4vw, 16.5px); }
 
 .sublabel {
   margin-top: 44px;
-  font-size: clamp(16px, 4.2vw, 19px);
+  font-size: clamp(17px, 4.4vw, 20px);
   font-weight: 700;
   line-height: 1.7;
-  color: var(--white);
+  color: var(--heading);
 }
 
-/* セクションを締める一文 */
+/* セクションを締める一文。<em> は蛍光ペンで塗る */
 .closing-line {
   margin: 44px auto 0;
   max-width: var(--measure);
-  font-size: clamp(16px, 4.2vw, 19px);
+  font-size: clamp(17px, 4.4vw, 20px);
   font-weight: 700;
-  line-height: 1.8;
-  color: var(--white);
+  line-height: 1.85;
+  color: var(--heading);
+}
+.closing-line em {
+  color: var(--heading);
+  background: linear-gradient(transparent 58%, var(--marker) 58%);
+  padding-inline: .08em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 
 .note-muted {
   margin: 30px auto 0;
   max-width: var(--measure);
   padding: 18px 22px;
-  border: 1px dashed var(--line-soft);
+  border: 1px dashed #D3CFC4;
   border-radius: 14px;
-  font-size: clamp(14px, 3.7vw, 15.5px);
+  font-size: clamp(15px, 3.9vw, 16px);
   line-height: 1.9;
   color: var(--muted);
 }
@@ -187,7 +242,7 @@ h2 {
 /* ── HERO ──────────────────────────────────── */
 .hero {
   position: relative;
-  padding-block: clamp(48px, 10vw, 88px) clamp(56px, 11vw, 104px);
+  padding-top: clamp(48px, 10vw, 88px);
   overflow: hidden;
 }
 /* 集合写真を暗く敷く。暗転のグラデを同じレイヤーに重ねて、
@@ -203,7 +258,7 @@ h2 {
   pointer-events: none;
 }
 
-/* 上から落ちるクリームの微光。joinknct.com のヒーローの空気感 */
+/* 上から落ちる、ティファニーの微光 */
 .hero::before {
   content: "";
   position: absolute;
@@ -212,11 +267,12 @@ h2 {
   width: min(1100px, 150%);
   aspect-ratio: 1;
   transform: translateX(-50%);
-  background: radial-gradient(circle, rgba(236,231,211,.09), transparent 62%);
+  background: radial-gradient(circle, rgba(129,216,208,.11), transparent 62%);
   pointer-events: none;
   z-index: 1;
 }
-.hero > .wrap { position: relative; z-index: 2; }
+.hero > .wrap,
+.hero > .video-stage { position: relative; z-index: 2; }
 
 .hero-logo { width: 120px; height: auto; display: block; margin-inline: auto; }
 .hero .rule { margin-block: 22px 28px; }
@@ -227,13 +283,12 @@ h2 {
   padding: 20px 24px;
   border: 1px solid var(--line);
   border-radius: 16px;
-  background: linear-gradient(180deg, var(--surface), var(--surface-2));
-  font-size: clamp(13.5px, 3.6vw, 15px);
+  background: var(--surface);
+  font-size: clamp(14.5px, 3.8vw, 15.5px);
   line-height: 1.95;
-  color: var(--muted);
+  color: var(--text);
   text-align: left;
 }
-.notice strong { color: var(--cream); }
 
 /* 動画の上のステップ表示 */
 .steplabel {
@@ -243,32 +298,41 @@ h2 {
   justify-content: center;
   gap: 8px 12px;
   margin-top: clamp(40px, 7vw, 64px);
-  font-size: 11.5px;
+  font-size: 13px;
   font-weight: 700;
-  letter-spacing: .14em;
+  letter-spacing: .12em;
   line-height: 1.6;
-  color: var(--muted);
+  color: var(--heading);
 }
 .steplabel span {
   flex: none;
-  color: #14140F;
-  background: var(--cream);
+  color: var(--on-tiffany);
+  background: var(--tiffany);
   border-radius: 100px;
   padding: 5px 12px;
+  font-size: 12px;
   letter-spacing: .1em;
+}
+
+/* 動画を、黒と白の境目にまたがせる。
+   上下の余白を同じにしているので、色の切り替わり（50%）がちょうど動画の真ん中に来る */
+.video-stage {
+  padding-block: 18px;
+  background: linear-gradient(180deg, transparent 50%, var(--paper) 50%);
 }
 
 .video-frame {
   position: relative;
-  margin: 16px auto 0;
+  margin-inline: auto;
   aspect-ratio: 16 / 9;
   width: 100%;
   max-width: 860px;
-  border: 1px solid var(--line);
   border-radius: 20px;
   overflow: hidden;
-  background: linear-gradient(180deg, var(--surface), var(--surface-2));
-  box-shadow: 0 40px 90px -46px rgba(236,231,211,.35);
+  background: #17171B;
+  box-shadow:
+    0 0 0 1px rgba(129,216,208,.3),
+    0 30px 60px -26px rgba(0,0,0,.5);
 }
 @supports not (aspect-ratio: 16 / 9) {
   .video-frame { height: 0; padding-top: 56.25%; }
@@ -283,7 +347,7 @@ h2 {
   display: block;
 }
 .video-frame iframe:focus-visible,
-.video-frame video:focus-visible { outline: 2px solid var(--cream); outline-offset: -4px; }
+.video-frame video:focus-visible { outline: 2px solid var(--focus); outline-offset: -4px; }
 
 .video-placeholder {
   position: absolute;
@@ -301,62 +365,76 @@ h2 {
   place-items: center;
   width: 64px; height: 64px;
   border-radius: 50%;
-  background: var(--cream);
-  color: #14140F;
+  background: var(--tiffany);
+  color: var(--on-tiffany);
   margin-bottom: 12px;
-  box-shadow: 0 0 40px rgba(236,231,211,.28);
+  box-shadow: 0 0 40px rgba(129,216,208,.35);
 }
 .video-placeholder .play svg { width: 28px; height: 28px; }
-.video-placeholder-title { font-weight: 700; font-size: 15px; color: var(--white); }
-.video-placeholder-note { font-size: 12.5px; line-height: 1.8; }
+.video-placeholder-title { font-weight: 700; font-size: 15px; color: var(--heading); }
+.video-placeholder-note { font-size: 13px; line-height: 1.8; }
 
 /* ── セクション ─────────────────────────────── */
 .section { padding-block: clamp(64px, 12vw, 116px); }
 .section--tight { padding-block: clamp(52px, 9vw, 80px); }
+/* 1つおきに帯の色を変えて、話の区切りを見えるようにする */
+.section--alt { background: var(--bg-alt); }
+/* カレンダーが出ている時は、次のセクションとの間に罫を引く（どちらも白のため） */
+#calendar-section:not([hidden]) + .section { border-top: 1px solid var(--line-soft); }
 
 /* ── カード ─────────────────────────────────── */
 .card {
   padding: 28px 24px;
   border: 1px solid var(--line);
   border-radius: var(--r);
-  background: linear-gradient(180deg, var(--surface), var(--surface-2));
+  background: var(--surface);
+  box-shadow: var(--shadow);
   text-align: left;
 }
-/* 見せ場のカードはクリームの膜と光を足す */
+/* 見せ場のカードは、ティファニーの枠と薄い色を足す */
 .card--hl {
-  border-color: rgba(236,231,211,.3);
-  background:
-    linear-gradient(165deg, rgba(236,231,211,.13), rgba(236,231,211,0) 58%),
-    linear-gradient(180deg, var(--surface), var(--surface-2));
-  box-shadow: 0 30px 60px -34px rgba(236,231,211,.4);
+  border: 1.5px solid var(--tiffany);
+  background: linear-gradient(165deg, var(--tiffany-tint), var(--surface) 62%);
+  box-shadow: 0 1px 2px rgba(17,19,21,.04), 0 24px 48px -26px rgba(11,122,117,.45);
 }
 
+/* 01 / 02 … の番号。ティファニーの丸 */
 .num {
-  display: block;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: .2em;
+  display: inline-grid;
+  place-items: center;
+  min-width: 38px;
+  height: 38px;
+  padding-inline: 9px;
+  border-radius: 100px;
+  background: var(--tiffany);
+  color: var(--on-tiffany);
+  font-size: 13.5px;
+  font-weight: 800;
+  letter-spacing: .04em;
   line-height: 1;
-  color: var(--cream);
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 
-.card h3 {
-  font-size: clamp(17px, 4.4vw, 20px);
+.card :where(h3) {
+  font-size: clamp(18px, 4.6vw, 21px);
   font-weight: 700;
   line-height: 1.6;
-  color: var(--white);
+  color: var(--heading);
 }
-.card p { margin-top: 12px; font-size: 15px; line-height: 1.9; }
+.card :where(p) { margin-top: 10px; font-size: 16px; line-height: 1.9; }
 
 .grid { margin-top: 40px; display: grid; gap: 14px; text-align: left; }
 .numlist { margin-top: 40px; display: grid; gap: 14px; max-width: 760px; margin-inline: auto; }
 
-/* ── 用語リスト ─────────────────────────────── */
+/* ── 用語リスト（白いカードの中に行を並べる） ── */
 .deflist {
   margin: 40px auto 0;
   max-width: 760px;
-  border-top: 1px solid var(--line-soft);
+  padding: 4px 24px;
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  background: var(--surface);
+  box-shadow: var(--shadow);
   text-align: left;
 }
 .deflist > div {
@@ -365,40 +443,58 @@ h2 {
   padding-block: 20px;
   border-bottom: 1px solid var(--line-soft);
 }
+.deflist > div:last-child { border-bottom: 0; }
 .deflist dt {
-  font-size: clamp(16px, 4.2vw, 18px);
-  font-weight: 700;
+  font-size: clamp(16.5px, 4.3vw, 18px);
+  font-weight: 800;
   line-height: 1.6;
-  color: var(--cream);
+  color: var(--tiffany-deep);
 }
-.deflist dd { margin: 0; font-size: 15px; line-height: 1.9; }
+.deflist dd { margin: 0; font-size: 16px; line-height: 1.9; }
 
-/* ── チェックリスト ─────────────────────────── */
+/* ── チェックリスト（1行ずつ白いカード） ───── */
 .checklist {
+  --py: 16px;
   margin: 40px auto 0;
   max-width: 660px;
-  border-top: 1px solid var(--line-soft);
+  display: grid;
+  gap: 10px;
   text-align: left;
 }
 .checklist li {
   position: relative;
-  padding: 17px 8px 17px 38px;
-  border-bottom: 1px solid var(--line-soft);
-  font-size: clamp(14.5px, 3.9vw, 16px);
-  line-height: 1.85;
-  color: var(--white);
+  padding: var(--py) 18px var(--py) 56px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  font-size: clamp(15.5px, 4vw, 16.5px);
+  font-weight: 500;
+  line-height: 1.8;
+  color: var(--heading);
 }
+/* ティファニーの丸。1行目の高さの真ん中に合わせる */
 .checklist li::before {
   content: "";
   position: absolute;
-  left: 6px;
-  top: 1.42em;
-  width: 14px; height: 8px;
-  border-left: 2px solid var(--cream);
-  border-bottom: 2px solid var(--cream);
+  left: 18px;
+  top: calc(var(--py) + .9em - 12px);
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: var(--tiffany);
+}
+/* 丸の中のチェック */
+.checklist li::after {
+  content: "";
+  position: absolute;
+  left: 24.5px;
+  top: calc(var(--py) + .9em - 4.5px);
+  width: 11px; height: 6px;
+  border-left: 2px solid var(--on-tiffany);
+  border-bottom: 2px solid var(--on-tiffany);
   transform: rotate(-45deg);
 }
-.checklist--tight li { padding-block: 14px; }
+.checklist--tight { --py: 13px; }
 
 /* ── チップ ─────────────────────────────────── */
 .chips {
@@ -410,13 +506,13 @@ h2 {
 }
 .chips li {
   padding: 10px 20px;
-  border: 1px solid var(--line);
+  border: 1px solid rgba(11,122,117,.2);
   border-radius: 100px;
-  background: linear-gradient(180deg, rgba(255,255,255,.04), transparent);
-  font-size: 14.5px;
+  background: var(--tiffany-tint);
+  font-size: 15px;
   font-weight: 700;
   line-height: 1.5;
-  color: var(--white);
+  color: var(--tiffany-deep);
 }
 
 /* ── 学ぶ→実行→計測→… ─────────────────────── */
@@ -428,14 +524,15 @@ h2 {
 }
 .chain li {
   padding: 15px 18px;
-  border: 1px solid var(--line-soft);
-  border-left: 3px solid var(--cream);
-  border-radius: 0 12px 12px 0;
-  background: linear-gradient(90deg, rgba(236,231,211,.07), transparent 60%);
-  font-size: 15px;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--tiffany-mid);
+  border-radius: 4px 12px 12px 4px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  font-size: 15.5px;
   font-weight: 700;
   line-height: 1.6;
-  color: var(--white);
+  color: var(--heading);
   text-align: left;
 }
 
@@ -452,40 +549,46 @@ h2 {
   width: 52px; height: 52px;
   border-radius: 50%;
   object-fit: cover;
-  border: 1px solid var(--line);
+  border: 2px solid var(--tiffany);
 }
 .proof-name {
-  font-size: 13px !important;
-  font-weight: 700;
+  font-size: 13.5px;
+  font-weight: 800;
   letter-spacing: .18em;
   line-height: 1;
-  color: var(--cream);
+  color: var(--heading);
 }
-.proof dl { display: grid; gap: 16px; }
+.proof dl { margin-bottom: 22px; }
 .proof dt {
   font-size: 11.5px;
   font-weight: 700;
   letter-spacing: .14em;
   line-height: 1;
   color: var(--muted);
-  margin-bottom: 7px;
+  margin-bottom: 8px;
   text-transform: uppercase;
 }
-.proof dd { margin: 0; font-size: 14.5px; line-height: 1.85; }
-.proof-result { margin-top: auto; padding-top: 22px; }
+.proof dd + dt { margin-top: 18px; }
+.proof dd { margin: 0; font-size: 15px; line-height: 1.85; }
+/* 結果は罫で区切って、カードの一番下に揃える */
+.proof-result {
+  margin-top: auto;
+  padding-top: 18px;
+  border-top: 1px solid var(--line-soft);
+}
 .proof-num {
   display: block;
-  font-size: clamp(25px, 5.6vw, 30px);
-  font-weight: 700;
-  line-height: 1.3;
-  color: var(--cream);
+  font-size: clamp(28px, 6.4vw, 34px);
+  font-weight: 800;
+  line-height: 1.25;
+  color: var(--tiffany-mid);
   letter-spacing: .01em;
 }
-.proof-unit { display: block; margin-top: 3px; font-size: 12.5px; color: var(--muted); }
+.proof-unit { display: block; margin-top: 4px; font-size: 13px; line-height: 1.7; color: var(--muted); }
 .disclaimer {
   margin: 30px auto 0;
   max-width: var(--measure);
-  font-size: 12.5px;
+  font-size: 13px;
   line-height: 1.85;
   color: var(--muted);
 }
@@ -493,13 +596,16 @@ h2 {
 /* ── リフレーム ─────────────────────────────── */
 .qa { margin: 40px auto 0; max-width: 680px; }
 .q { padding: 26px 24px; }
+/* 悪い例は、色を抜いて一段沈める */
+.q--bad { background: var(--bg-alt); box-shadow: none; }
 .q-tag {
   display: inline-block;
+  margin-top: 0;
   padding: 7px 16px;
   border-radius: 100px;
-  border: 1px solid var(--line-soft);
-  background: rgba(255,255,255,.05);
-  font-size: 11px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  font-size: 11.5px;
   font-weight: 700;
   letter-spacing: .14em;
   line-height: 1;
@@ -507,35 +613,37 @@ h2 {
   margin-bottom: 18px;
 }
 .q-tag--solid {
-  background: var(--cream);
-  border-color: var(--cream);
-  color: #14140F;
+  background: var(--tiffany);
+  border-color: var(--tiffany);
+  color: var(--on-tiffany);
 }
 .q-text {
-  font-size: clamp(16px, 4.2vw, 20px);
+  margin-top: 0;
+  font-size: clamp(17px, 4.4vw, 20px);
   font-weight: 700;
   line-height: 1.75;
 }
 .q-mark { display: inline-block; margin-right: 10px; }
 .q--bad .q-text { color: var(--muted); }
-.q--good .q-text { color: var(--white); }
-.q--good .q-mark { color: var(--cream); }
+.q--good .q-text { color: var(--heading); }
+.q--good .q-mark { color: var(--tiffany-deep); }
 .q-arrow {
   margin: 14px 0;
-  font-size: 13px;
-  color: var(--muted);
+  font-size: 14px;
+  color: var(--tiffany-mid);
   line-height: 1;
 }
 
 /* ── カレンダー ─────────────────────────────── */
 .cal-card { margin: 34px auto 0; max-width: 700px; }
 .cal-date {
+  margin-top: 0;
   font-size: clamp(22px, 5.4vw, 30px);
   font-weight: 700;
   line-height: 1.5;
-  color: var(--white);
+  color: var(--heading);
 }
-.cal-meta { margin-top: 8px !important; font-size: 13.5px; color: var(--muted); }
+.cal-meta { margin-top: 8px; font-size: 14px; color: var(--muted); }
 .cal-actions { margin-top: 26px; display: grid; gap: 10px; }
 
 .btn {
@@ -546,61 +654,88 @@ h2 {
   padding: 12px 20px;
   border-radius: 100px;
   border: 1px solid var(--line);
-  background: rgba(255,255,255,.04);
-  color: var(--white);
+  background: var(--surface);
+  color: var(--heading);
   text-decoration: none;
-  font-size: 14.5px;
+  font-size: 15px;
   font-weight: 700;
   line-height: 1.4;
   text-align: center;
+  box-shadow: var(--shadow);
   transition: background .16s ease, border-color .16s ease, transform .16s ease;
 }
-.btn:hover { background: rgba(255,255,255,.09); border-color: rgba(236,231,211,.35); }
+.btn:hover { background: var(--tiffany-tint); border-color: var(--tiffany-mid); }
 .btn:active { transform: scale(.99); }
 .btn--primary {
-  background: var(--cream);
-  border-color: var(--cream);
-  color: #14140F;
-  box-shadow: 0 18px 40px -18px rgba(236,231,211,.55);
+  background: var(--tiffany);
+  border-color: var(--tiffany);
+  color: var(--on-tiffany);
+  box-shadow: 0 16px 34px -18px rgba(11,122,117,.6);
 }
-.btn--primary:hover { background: #F5F1E2; border-color: #F5F1E2; }
+.btn--primary:hover { background: #97E0D9; border-color: #97E0D9; }
 
-/* ── よくある質問 ───────────────────────────── */
+/* ── よくある質問（1問ずつ白いカード） ─────── */
 .faq {
   margin: 40px auto 0;
   max-width: 760px;
-  border-top: 1px solid var(--line-soft);
+  display: grid;
+  gap: 10px;
   text-align: left;
 }
-.faq details { border-bottom: 1px solid var(--line-soft); }
+.faq details {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  transition: border-color .2s ease;
+}
+.faq details[open] { border-color: rgba(23,162,155,.55); }
 .faq summary {
   position: relative;
   display: block;
   list-style: none;
   cursor: pointer;
-  padding: 22px 44px 22px 0;
-  font-size: clamp(15.5px, 4.1vw, 18px);
+  padding: 19px 44px 19px 54px;
+  font-size: clamp(16px, 4.2vw, 17.5px);
   font-weight: 700;
   line-height: 1.7;
-  color: var(--white);
+  color: var(--heading);
 }
 .faq summary::-webkit-details-marker { display: none; }
+/* 頭の「Q」。1行目の高さの真ん中に合わせる */
+.faq summary::before {
+  content: "Q";
+  position: absolute;
+  left: 16px;
+  top: calc(19px + .85em - 13px);
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: var(--tiffany);
+  color: var(--on-tiffany);
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 26px;
+  text-align: center;
+}
 .faq summary::after {
   content: "";
   position: absolute;
-  right: 10px;
+  right: 18px;
   top: 50%;
   width: 10px; height: 10px;
-  margin-top: -9px;
-  border-right: 2px solid var(--cream);
-  border-bottom: 2px solid var(--cream);
+  margin-top: -8px;
+  border-right: 2px solid var(--tiffany-deep);
+  border-bottom: 2px solid var(--tiffany-deep);
   transform: rotate(45deg);
   transition: transform .2s ease;
 }
-.faq details[open] summary::after { transform: rotate(-135deg); margin-top: -3px; }
-.faq summary:hover { color: var(--cream); }
-.faq-a { padding: 0 0 26px; }
-.faq-a p { font-size: clamp(14.5px, 3.9vw, 16px); line-height: 1.95; }
+.faq details[open] summary::after { transform: rotate(-135deg); margin-top: -2px; }
+@media (hover: hover) {
+  .faq summary:hover { color: var(--tiffany-deep); }
+}
+.faq-a { padding: 0 22px 22px 20px; }
+.faq-a p { font-size: clamp(15.5px, 4vw, 16px); line-height: 1.95; }
 
 /* ── 最後 ───────────────────────────────────── */
 .closing {
@@ -608,6 +743,7 @@ h2 {
   padding-block: clamp(76px, 14vw, 128px);
   overflow: hidden;
 }
+/* 下から広がる、ティファニーの淡い光 */
 .closing::before {
   content: "";
   position: absolute;
@@ -616,24 +752,24 @@ h2 {
   width: min(1000px, 150%);
   aspect-ratio: 1;
   transform: translateX(-50%);
-  background: radial-gradient(circle, rgba(236,231,211,.10), transparent 60%);
+  background: radial-gradient(circle, rgba(129,216,208,.24), transparent 60%);
   pointer-events: none;
 }
 .closing > .wrap { position: relative; }
+.closing .rule { height: 2px; border-radius: 2px; background: var(--tiffany); }
 .closing-h {
   margin-top: 0;
   font-size: clamp(30px, 7.4vw, 52px);
   line-height: 1.4;
 }
 
-/* ── フッター ───────────────────────────────── */
+/* ── フッター（黒） ──────────────────────────── */
 .site-foot {
-  border-top: 1px solid var(--line-soft);
   padding-block: 52px calc(52px + env(safe-area-inset-bottom));
 }
-.foot-logo { width: 84px; height: auto; display: block; margin-inline: auto; opacity: .7; }
-.foot-tag { margin-top: 18px; font-size: 13px; color: var(--muted); }
-.foot-copy { margin-top: 10px; font-size: 12px; color: #6A6A6E; }
+.foot-logo { width: 84px; height: auto; display: block; margin-inline: auto; opacity: .8; }
+.foot-tag { margin-top: 18px; font-size: 13.5px; color: var(--muted); }
+.foot-copy { margin-top: 10px; font-size: 12px; color: #8C8C92; }
 
 /* ── レスポンシブ ───────────────────────────── */
 /* 狭い幅では、広い画面前提で入れた強制改行を無効化する */
@@ -641,27 +777,33 @@ h2 {
   /* 見出しの改行は文の切れ目なので残す。本文側だけ解除する */
   .lead br, .note-muted br { display: none; }
   h1, h2 { text-wrap: balance; }
-  .lead, .note-muted, .closing-line, .notice { text-wrap: pretty; }
   .card { padding: 24px 20px; }
+  .deflist { padding-inline: 20px; }
 }
 
 @media (min-width: 720px) {
   :root { --pad: 36px; }
   .cal-actions { grid-template-columns: repeat(3, 1fr); }
+  .deflist { padding-inline: 32px; }
   .deflist > div { grid-template-columns: 190px 1fr; align-items: baseline; }
   .card { padding: 32px 30px; }
   .grid--2 { grid-template-columns: repeat(2, 1fr); }
+  .faq-a { padding-left: 54px; }
+}
+
+/* 流れ図を横に5つ並べるのは、1列が「フィードバックを」を収められる幅になってから */
+@media (min-width: 900px) {
   .chain {
     grid-template-columns: repeat(5, 1fr);
     gap: 12px;
   }
   .chain li {
-    border-left: 1px solid var(--line-soft);
-    border-top: 3px solid var(--cream);
-    border-radius: 0 0 12px 12px;
-    background: linear-gradient(180deg, rgba(236,231,211,.07), transparent 60%);
+    border-left: 1px solid var(--line);
+    border-top: 4px solid var(--tiffany-mid);
+    border-radius: 4px 4px 12px 12px;
+    padding-inline: 10px;
     text-align: center;
-    font-size: 14px;
+    font-size: 14.5px;
     display: grid;
     place-items: center;
   }
