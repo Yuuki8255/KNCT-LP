@@ -43,6 +43,12 @@ VIDEO_URL: "https://www.youtube.com/watch?v=xxxxxxxxxxx",
 > YouTube に上げる場合は「限定公開（Unlisted）」がおすすめです。
 > 検索には出ませんが、URL を知っている人は見られます。
 
+現在は `assets/video/call-confirmed.mp4` を直リンクで使っています
+（元は 4K・234MB・HEVC だったものを、720p・H.264・約18MBに変換したもの）。
+`VIDEO_POSTER`（`assets/video-poster.webp`）は読み込み中に出るサムネイルです。
+動画を差し替える時は、同じファイル名に上書きするか、`VIDEO_URL` / `VIDEO_POSTER`
+のパスを変えてください。
+
 ---
 
 ## 2. カレンダー追加ボタン（一人ひとり別の日時）
@@ -187,7 +193,6 @@ LINE でリンクを送った時のプレビュー画像がこの2行を見て�
 
 | 箇所 | 必要な情報 |
 |---|---|
-| 動画 | `script.js` の `VIDEO_URL`。未設定のうちは「動画は準備中です」と出ます |
 | よくある質問の6問目 | 面談の所要時間／使用ツール（Zoom・Meet・LINE通話など）／通話URLの届け方。`index.html` 内にコメントアウトした雛形があります |
 | 所要時間の既定値 | `script.js` の `DEFAULT_DURATION_MIN` と `api/ics.js` の `DEFAULT_DURATION_MIN`（現在は仮で45分） |
 | 実績（Yuuki） | 本人の実績か、支援した相手の実績か |

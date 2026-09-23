@@ -10,7 +10,10 @@ const CONFIG = {
   //   例) "https://www.youtube.com/watch?v=xxxxxxxxxxx"
   //   例) "https://youtu.be/xxxxxxxxxxx"
   //   例) "https://vimeo.com/123456789"
-  VIDEO_URL: "",
+  VIDEO_URL: "/assets/video/call-confirmed.mp4",
+
+  // .mp4 直リンクの場合、読み込み中に表示される画像（任意）
+  VIDEO_POSTER: "/assets/video-poster.webp",
 
   // カレンダーに登録される予定のタイトル・説明・場所
   EVENT_TITLE: "KNCT UNIVERSITY 面談",
@@ -73,6 +76,7 @@ const CONFIG = {
       video.controls = true;
       video.playsInline = true;
       video.preload = "metadata";
+      if (CONFIG.VIDEO_POSTER) video.poster = CONFIG.VIDEO_POSTER;
       return video;
     }
 
