@@ -192,8 +192,8 @@ LINE でリンクを送った時のプレビュー画像がこの2行を見て�
 |---|---|
 | `assets/hero-community.webp`（今は未使用） | `toshikinksj-beep/knct-university-lp` の `assets/community.jpg`（1920x1460 / 665KB）を 1600px・WebP に変換（161KB） |
 | `assets/p-*.webp` | `Yuuki8255/knct-webinar-slides` の `assets/photos/faces/_切り抜き/*.jpg`（512x512の顔中心トリミング）を 176px・WebP に変換（各5〜8KB） |
-| `assets/logo-knct-cream.png` | 一番上のロゴ（KNCT の文字だけ）。`toshikinksj-beep/knct-university-lp` の `assets/icon-512.png` から KNCT の部分だけを切り出して背景を抜いたもの（374x119） |
-| `assets/logo-cream.png` / `logo-dark.png` | フッターのロゴ（KNCT UNIVERSITY）。`assets/brand/apple-touch-icon.png` から背景を抜いたもの |
+| `assets/logo-knct-cream.png` | 一番上とフッターのロゴ（KNCT の文字だけ）。`toshikinksj-beep/knct-university-lp` の `assets/icon-512.png` から KNCT の部分だけを切り出して背景を抜いたもの（374x119） |
+| `assets/logo-cream.png` / `logo-dark.png` | KNCT UNIVERSITY の旧ロゴ（今は未使用）。`assets/brand/apple-touch-icon.png` から背景を抜いたもの |
 
 ヒーロー写真は**今は外していて、一番上は黒一色**です。
 戻す時は `styles.css` の `.hero::after` のコメントを外してください（写真の上に暗転の

@@ -278,11 +278,11 @@ h2 em,
 .hero > .wrap { position: relative; z-index: 3; }
 
 /* 一番上のロゴは「KNCT」の文字だけ（UNIVERSITY なし） */
-.hero-logo { width: 124px; height: auto; display: block; margin-inline: auto; }
+.hero-logo { width: 100px; height: auto; display: block; margin-inline: auto; }
 /* ロゴと見出しの間に置く、短い線2本（間を少し空けて並べる） */
 .hero .rule {
   width: 76px;
-  margin-block: 30px 32px;
+  margin-block: 48px 32px;   /* ロゴとの間は広めに空ける */
   background: linear-gradient(90deg,
     rgba(236,231,211,.42) 0 28px,
     transparent 28px 48px,
@@ -810,7 +810,8 @@ h2 em,
 .site-foot {
   padding-block: 52px calc(52px + env(safe-area-inset-bottom));
 }
-.foot-logo { width: 84px; height: auto; display: block; margin-inline: auto; opacity: .8; }
+/* フッターのロゴも「KNCT」の文字だけ */
+.foot-logo { width: 72px; height: auto; display: block; margin-inline: auto; opacity: .8; }
 .foot-tag { margin-top: 18px; font-size: 13.5px; color: var(--muted); }
 .foot-copy { margin-top: 10px; font-size: 12px; color: #8C8C92; }
 
