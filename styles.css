@@ -482,14 +482,6 @@ h2 {
   letter-spacing: .01em;
 }
 .proof-unit { display: block; margin-top: 3px; font-size: 12.5px; color: var(--muted); }
-.proof-result--text {
-  font-size: 15.5px !important;
-  font-weight: 700;
-  line-height: 1.8;
-  color: var(--white);
-  margin-top: auto !important;
-}
-
 .disclaimer {
   margin: 30px auto 0;
   max-width: var(--measure);
