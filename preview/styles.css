@@ -1,0 +1,823 @@
+/* ══════════════════════════════════════════════════════════════
+   KNCT UNIVERSITY — 面談予約完了ページ
+   一番上（ロゴ・見出し・動画）は joinknct.com と同じ黒、そこから下は白。
+   色はロゴと同じクリームと黒だけ。
+   色を変えたい時は :root のトークンだけ触れば全体に反映されます。
+   ══════════════════════════════════════════════════════════════ */
+
+:root {
+  /* 面（ヒーローから下の、明るい部分） */
+  --paper:      #FFFFFF;   /* 白。ヒーローの中でも上書きしない */
+  --bg:         var(--paper);
+  --bg-alt:     #F6F4EF;   /* 交互に敷く帯。ロゴのクリームをごく薄くした色 */
+  --surface:    #FFFFFF;   /* カード */
+
+  /* 線 */
+  --line:       #E5E1D7;   /* カードの枠・罫 */
+  --line-soft:  #EDEAE3;
+
+  /* 文字 */
+  --heading:    #111315;   /* 見出し */
+  --text:       #33373D;   /* 本文。白地で 12:1 */
+  --muted:      #62666D;   /* 補足。白地で 5.8:1 / 帯で 5.3:1 */
+
+  /* ブランド */
+  --cream:      #ECE7D3;   /* ロゴと同じ色。黒い面のアクセント */
+
+  /* アクセント。クリームは白地だと 1.2:1 しか差がなく見えないので、
+     白い面では「黒地にクリームの文字」で目立たせ、強調にはクリームのマーカーを引く */
+  --accent:      #111315;  /* 塗り（ラベル・番号・チェック・ボタン） */
+  --on-accent:   #ECE7D3;  /* 塗りの上の文字（14:1） */
+  --accent-tint: #F4F0E4;  /* 薄く敷く面（チップ・見せ場のカード） */
+  --accent-line: #D9CDA8;  /* 白地でも見える濃さのクリーム（顔写真の枠・罫） */
+
+  --em:     var(--heading);  /* 見出しの <em>。白い面では色ではなくマーカーで強調する */
+  --marker: #E7DDBE;         /* 強調の下に引く、クリームの蛍光ペン */
+  --focus:  var(--heading);
+  --shadow: 0 1px 2px rgba(17,19,21,.04), 0 14px 34px -20px rgba(17,19,21,.22);
+
+  --maxw: 1080px;
+  --measure: 640px;   /* 中央寄せ本文の読みやすい幅 */
+  --pad: 22px;
+  --r: 18px;
+
+  /* 欧文 Inter、和文は端末標準（iPhone=ヒラギノ） */
+  --ff: "Inter", "Hiragino Kaku Gothic ProN", "Hiragino Sans",
+        "Noto Sans JP", "Yu Gothic Medium", Meiryo, sans-serif;
+
+  color-scheme: light;
+}
+
+/* 黒い面（ヒーロー・フッター）。
+   トークンを上書きするだけで、同じパーツがそのまま黒地用になる */
+.hero,
+.site-foot {
+  --bg:        #000000;
+  --surface:   #17171B;
+  --line:      rgba(236,231,211,.16);
+  --line-soft: rgba(255,255,255,.08);
+  --heading:   #FFFFFF;
+  --text:      #D4D4D8;   /* 黒地で 14:1 */
+  --muted:     #A3A3A9;   /* 黒地で 8.4:1 */
+  --accent:    var(--cream);
+  --on-accent: #14140F;
+  --em:        var(--cream);
+  --marker:    transparent;   /* 黒い面ではマーカーを引かず、クリームの文字で強調 */
+  --focus:     var(--cream);
+  color-scheme: dark;
+  background: var(--bg);
+  color: var(--text);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--ff);
+  font-size: 16px;
+  line-height: 1.9;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  /* 和文の禁則を明示（Android WebView だと既定が緩い） */
+  line-break: strict;
+  word-break: normal;
+  overflow-wrap: anywhere;
+}
+
+h1, h2, h3, p, ul, ol, dl, dd { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+img { max-width: 100%; }
+a { color: inherit; }
+em { font-style: normal; color: var(--em); }
+/* 蛍光ペンのように、文字の下半分だけ色を敷く */
+strong {
+  color: var(--heading);
+  font-weight: 700;
+  background: linear-gradient(transparent 60%, var(--marker) 60%);
+  padding-inline: .08em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; border-radius: 4px; }
+
+/* 最後の行に1〜2文字だけ残る「泣き別れ」を避ける（対応ブラウザのみ。非対応でも崩れない） */
+p, li, dd, summary { text-wrap: pretty; }
+
+/* 和文を語句の切れ目で折り返すためのユーティリティ。
+   幅が足りれば1行、足りなければ指定した位置で改行される */
+.nb { display: inline-block; max-width: 100%; }
+
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.wrap {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  /* 横向きのノッチに潜らないよう左右の safe-area を足す */
+  padding-inline:
+    calc(var(--pad) + env(safe-area-inset-left, 0px))
+    calc(var(--pad) + env(safe-area-inset-right, 0px));
+  text-align: center;
+}
+
+/* ── 共通パーツ ─────────────────────────────── */
+
+/* セクションの頭に置く、ドット付きのピルラベル */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 18px;
+  border: 1px solid var(--accent);
+  border-radius: 100px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: .2em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.badge .dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--on-accent);
+  box-shadow: 0 0 10px rgba(236,231,211,.8);
+}
+/* 黒い面で強調したいものは、クリームで塗る */
+.badge--solid {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+  letter-spacing: .12em;
+  text-transform: none;
+  font-size: 12.5px;
+  padding: 10px 20px;
+}
+.badge--solid .badge-check { width: 13px; height: 13px; }
+
+/* 細い横罫 */
+.rule {
+  display: block;
+  width: 42px;
+  height: 1px;
+  margin: 26px auto;
+  background: linear-gradient(90deg, transparent, var(--line) 30%, var(--line) 70%, transparent);
+}
+
+h1 {
+  margin-top: 26px;
+  font-size: clamp(25px, 5.6vw, 42px);
+  font-weight: 700;
+  line-height: 1.46;
+  letter-spacing: .01em;
+  color: var(--heading);
+}
+
+h2 {
+  margin-top: 22px;
+  font-size: clamp(23px, 5vw, 36px);
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: .01em;
+  color: var(--heading);
+}
+
+.lead {
+  margin: 26px auto 0;
+  max-width: var(--measure);
+  font-size: clamp(16px, 4.1vw, 17.5px);
+  line-height: 1.95;
+}
+.lead--sm { font-size: clamp(15.5px, 4vw, 16.5px); }
+
+.sublabel {
+  margin-top: 44px;
+  font-size: clamp(17px, 4.4vw, 20px);
+  font-weight: 700;
+  line-height: 1.7;
+  color: var(--heading);
+}
+
+/* セクションを締める一文 */
+.closing-line {
+  margin: 44px auto 0;
+  max-width: var(--measure);
+  font-size: clamp(17px, 4.4vw, 20px);
+  font-weight: 700;
+  line-height: 1.85;
+  color: var(--heading);
+}
+/* 見出しと締めの一文の強調には、クリームのマーカーを引く（黒い面では透明） */
+h2 em,
+.closing-line em {
+  background: linear-gradient(transparent 60%, var(--marker) 60%);
+  padding-inline: .06em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.note-muted {
+  margin: 30px auto 0;
+  max-width: var(--measure);
+  padding: 18px 22px;
+  border: 1px dashed #D3CFC4;
+  border-radius: 14px;
+  font-size: clamp(15px, 3.9vw, 16px);
+  line-height: 1.9;
+  color: var(--muted);
+}
+.note-muted--center { border: 0; padding: 0; }
+
+/* ── HERO ──────────────────────────────────── */
+.hero {
+  position: relative;
+  padding-top: clamp(48px, 10vw, 88px);
+  overflow: hidden;
+}
+/* 集合写真を暗く敷く。暗転のグラデを同じレイヤーに重ねて、
+   写真の明るさに関わらず文字のコントラストが落ちないようにする */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.86) 0%, rgba(0,0,0,.94) 38%, #000 68%),
+    url("/assets/hero-community.webp") center 58% / cover no-repeat;
+  pointer-events: none;
+}
+
+/* 上から落ちるクリームの微光。joinknct.com のヒーローの空気感 */
+.hero::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -46%;
+  width: min(1100px, 150%);
+  aspect-ratio: 1;
+  transform: translateX(-50%);
+  background: radial-gradient(circle, rgba(236,231,211,.09), transparent 62%);
+  pointer-events: none;
+  z-index: 1;
+}
+.hero > .wrap,
+.hero > .video-stage { position: relative; z-index: 2; }
+
+.hero-logo { width: 120px; height: auto; display: block; margin-inline: auto; }
+.hero .rule { margin-block: 22px 28px; }
+
+.notice {
+  margin: 34px auto 0;
+  max-width: var(--measure);
+  padding: 20px 24px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+  font-size: clamp(14.5px, 3.8vw, 15.5px);
+  line-height: 1.95;
+  color: var(--text);
+  text-align: left;
+}
+.notice strong { color: var(--cream); }
+
+/* 動画の上のステップ表示 */
+.steplabel {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 12px;
+  margin-top: clamp(40px, 7vw, 64px);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  line-height: 1.6;
+  color: var(--heading);
+}
+.steplabel span {
+  flex: none;
+  color: var(--on-accent);
+  background: var(--accent);
+  border-radius: 100px;
+  padding: 5px 12px;
+  font-size: 12px;
+  letter-spacing: .1em;
+}
+
+/* 動画を、黒と白の境目にまたがせる。
+   上下の余白を同じにしているので、色の切り替わり（50%）がちょうど動画の真ん中に来る */
+.video-stage {
+  padding-block: 18px;
+  background: linear-gradient(180deg, transparent 50%, var(--paper) 50%);
+}
+
+.video-frame {
+  position: relative;
+  margin-inline: auto;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  max-width: 860px;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #17171B;
+  box-shadow:
+    0 0 0 1px rgba(236,231,211,.22),
+    0 30px 60px -26px rgba(0,0,0,.5);
+}
+@supports not (aspect-ratio: 16 / 9) {
+  .video-frame { height: 0; padding-top: 56.25%; }
+}
+.video-frame iframe,
+.video-frame video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+.video-frame iframe:focus-visible,
+.video-frame video:focus-visible { outline: 2px solid var(--focus); outline-offset: -4px; }
+
+.video-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 20px;
+  color: var(--muted);
+}
+.video-placeholder .play {
+  display: grid;
+  place-items: center;
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--on-accent);
+  margin-bottom: 12px;
+  box-shadow: 0 0 40px rgba(236,231,211,.28);
+}
+.video-placeholder .play svg { width: 28px; height: 28px; }
+.video-placeholder-title { font-weight: 700; font-size: 15px; color: var(--heading); }
+.video-placeholder-note { font-size: 13px; line-height: 1.8; }
+
+/* ── セクション ─────────────────────────────── */
+.section { padding-block: clamp(64px, 12vw, 116px); }
+.section--tight { padding-block: clamp(52px, 9vw, 80px); }
+/* 1つおきに帯の色を変えて、話の区切りを見えるようにする */
+.section--alt { background: var(--bg-alt); }
+/* カレンダーが出ている時は、次のセクションとの間に罫を引く（どちらも白のため） */
+#calendar-section:not([hidden]) + .section { border-top: 1px solid var(--line-soft); }
+
+/* ── カード ─────────────────────────────────── */
+.card {
+  padding: 28px 24px;
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  text-align: left;
+}
+/* 見せ場のカードは、黒い枠と薄いクリームを足す */
+.card--hl {
+  border: 1.5px solid var(--accent);
+  background: linear-gradient(165deg, var(--accent-tint), var(--surface) 62%);
+  box-shadow: 0 1px 2px rgba(17,19,21,.04), 0 24px 48px -26px rgba(17,19,21,.35);
+}
+
+/* 01 / 02 … の番号。黒い丸にクリームの数字 */
+.num {
+  display: inline-grid;
+  place-items: center;
+  min-width: 38px;
+  height: 38px;
+  padding-inline: 9px;
+  border-radius: 100px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: 13.5px;
+  font-weight: 800;
+  letter-spacing: .04em;
+  line-height: 1;
+  margin-bottom: 16px;
+}
+
+.card :where(h3) {
+  font-size: clamp(18px, 4.6vw, 21px);
+  font-weight: 700;
+  line-height: 1.6;
+  color: var(--heading);
+}
+.card :where(p) { margin-top: 10px; font-size: 16px; line-height: 1.9; }
+
+.grid { margin-top: 40px; display: grid; gap: 14px; text-align: left; }
+.numlist { margin-top: 40px; display: grid; gap: 14px; max-width: 760px; margin-inline: auto; }
+
+/* ── 用語リスト（白いカードの中に行を並べる） ── */
+.deflist {
+  margin: 40px auto 0;
+  max-width: 760px;
+  padding: 4px 24px;
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  text-align: left;
+}
+.deflist > div {
+  display: grid;
+  gap: 4px 28px;
+  padding-block: 20px;
+  border-bottom: 1px solid var(--line-soft);
+}
+.deflist > div:last-child { border-bottom: 0; }
+.deflist dt {
+  font-size: clamp(16.5px, 4.3vw, 18px);
+  font-weight: 800;
+  line-height: 1.6;
+  color: var(--heading);
+}
+.deflist dd { margin: 0; font-size: 16px; line-height: 1.9; }
+
+/* ── チェックリスト（1行ずつ白いカード） ───── */
+.checklist {
+  --py: 16px;
+  margin: 40px auto 0;
+  max-width: 660px;
+  display: grid;
+  gap: 10px;
+  text-align: left;
+}
+.checklist li {
+  position: relative;
+  padding: var(--py) 18px var(--py) 56px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  font-size: clamp(15.5px, 4vw, 16.5px);
+  font-weight: 500;
+  line-height: 1.8;
+  color: var(--heading);
+}
+/* 黒い丸。1行目の高さの真ん中に合わせる */
+.checklist li::before {
+  content: "";
+  position: absolute;
+  left: 18px;
+  top: calc(var(--py) + .9em - 12px);
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+/* 丸の中のチェック */
+.checklist li::after {
+  content: "";
+  position: absolute;
+  left: 24.5px;
+  top: calc(var(--py) + .9em - 4.5px);
+  width: 11px; height: 6px;
+  border-left: 2px solid var(--on-accent);
+  border-bottom: 2px solid var(--on-accent);
+  transform: rotate(-45deg);
+}
+.checklist--tight { --py: 13px; }
+
+/* ── チップ ─────────────────────────────────── */
+.chips {
+  margin-top: 36px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+.chips li {
+  padding: 10px 20px;
+  border: 1px solid var(--accent-line);
+  border-radius: 100px;
+  background: var(--accent-tint);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--heading);
+}
+
+/* ── 学ぶ→実行→計測→… ─────────────────────── */
+.chain {
+  margin: 22px auto 0;
+  display: grid;
+  gap: 10px;
+  max-width: 760px;
+}
+.chain li {
+  padding: 15px 18px;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--accent);
+  border-radius: 4px 12px 12px 4px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  font-size: 15.5px;
+  font-weight: 700;
+  line-height: 1.6;
+  color: var(--heading);
+  text-align: left;
+}
+
+/* ── 実績 ───────────────────────────────────── */
+.proof { display: flex; flex-direction: column; }
+.proof-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+.proof-face {
+  flex: none;
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--accent-line);
+}
+.proof-name {
+  font-size: 13.5px;
+  font-weight: 800;
+  letter-spacing: .18em;
+  line-height: 1;
+  color: var(--heading);
+}
+.proof dl { margin-bottom: 22px; }
+.proof dt {
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  line-height: 1;
+  color: var(--muted);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+.proof dd + dt { margin-top: 18px; }
+.proof dd { margin: 0; font-size: 15px; line-height: 1.85; }
+/* 結果は罫で区切って、カードの一番下に揃える */
+.proof-result {
+  margin-top: auto;
+  padding-top: 18px;
+  border-top: 1px solid var(--line-soft);
+}
+.proof-num {
+  display: block;
+  font-size: clamp(28px, 6.4vw, 34px);
+  font-weight: 800;
+  line-height: 1.25;
+  color: var(--heading);
+  letter-spacing: .01em;
+}
+.proof-unit { display: block; margin-top: 4px; font-size: 13px; line-height: 1.7; color: var(--muted); }
+.disclaimer {
+  margin: 30px auto 0;
+  max-width: var(--measure);
+  font-size: 13px;
+  line-height: 1.85;
+  color: var(--muted);
+}
+
+/* ── リフレーム ─────────────────────────────── */
+.qa { margin: 40px auto 0; max-width: 680px; }
+.q { padding: 26px 24px; }
+/* 悪い例は、色を抜いて一段沈める */
+.q--bad { background: var(--bg-alt); box-shadow: none; }
+.q-tag {
+  display: inline-block;
+  margin-top: 0;
+  padding: 7px 16px;
+  border-radius: 100px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  line-height: 1;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+.q-tag--solid {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+}
+.q-text {
+  margin-top: 0;
+  font-size: clamp(17px, 4.4vw, 20px);
+  font-weight: 700;
+  line-height: 1.75;
+}
+.q-mark { display: inline-block; margin-right: 10px; }
+.q--bad .q-text { color: var(--muted); }
+.q--good .q-text { color: var(--heading); }
+.q--good .q-mark { color: var(--heading); }
+.q-arrow {
+  margin: 14px 0;
+  font-size: 14px;
+  color: var(--heading);
+  line-height: 1;
+}
+
+/* ── カレンダー ─────────────────────────────── */
+.cal-card { margin: 34px auto 0; max-width: 700px; }
+.cal-date {
+  margin-top: 0;
+  font-size: clamp(22px, 5.4vw, 30px);
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--heading);
+}
+.cal-meta { margin-top: 8px; font-size: 14px; color: var(--muted); }
+.cal-actions { margin-top: 26px; display: grid; gap: 10px; }
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 54px;
+  padding: 12px 20px;
+  border-radius: 100px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--heading);
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: center;
+  box-shadow: var(--shadow);
+  transition: background .16s ease, border-color .16s ease, transform .16s ease;
+}
+.btn:hover { background: var(--accent-tint); border-color: var(--heading); }
+.btn:active { transform: scale(.99); }
+.btn--primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+  box-shadow: 0 16px 34px -18px rgba(17,19,21,.55);
+}
+.btn--primary:hover { background: #2A2D31; border-color: #2A2D31; }
+
+/* ── よくある質問（1問ずつ白いカード） ─────── */
+.faq {
+  margin: 40px auto 0;
+  max-width: 760px;
+  display: grid;
+  gap: 10px;
+  text-align: left;
+}
+.faq details {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  transition: border-color .2s ease;
+}
+.faq details[open] { border-color: rgba(17,19,21,.45); }
+.faq summary {
+  position: relative;
+  display: block;
+  list-style: none;
+  cursor: pointer;
+  padding: 19px 44px 19px 54px;
+  font-size: clamp(16px, 4.2vw, 17.5px);
+  font-weight: 700;
+  line-height: 1.7;
+  color: var(--heading);
+}
+.faq summary::-webkit-details-marker { display: none; }
+/* 頭の「Q」。1行目の高さの真ん中に合わせる */
+.faq summary::before {
+  content: "Q";
+  position: absolute;
+  left: 16px;
+  top: calc(19px + .85em - 13px);
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 26px;
+  text-align: center;
+}
+.faq summary::after {
+  content: "";
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  width: 10px; height: 10px;
+  margin-top: -8px;
+  border-right: 2px solid var(--heading);
+  border-bottom: 2px solid var(--heading);
+  transform: rotate(45deg);
+  transition: transform .2s ease;
+}
+.faq details[open] summary::after { transform: rotate(-135deg); margin-top: -2px; }
+@media (hover: hover) {
+  .faq summary:hover { color: var(--text); }
+}
+.faq-a { padding: 0 22px 22px 20px; }
+.faq-a p { font-size: clamp(15.5px, 4vw, 16px); line-height: 1.95; }
+
+/* ── 最後 ───────────────────────────────────── */
+.closing {
+  position: relative;
+  padding-block: clamp(76px, 14vw, 128px);
+  overflow: hidden;
+}
+/* 下から広がる、クリームの淡い光 */
+.closing::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -50%;
+  width: min(1000px, 150%);
+  aspect-ratio: 1;
+  transform: translateX(-50%);
+  background: radial-gradient(circle, rgba(236,231,211,.6), transparent 60%);
+  pointer-events: none;
+}
+.closing > .wrap { position: relative; }
+.closing .rule { height: 2px; border-radius: 2px; background: var(--accent-line); }
+.closing-h {
+  margin-top: 0;
+  font-size: clamp(30px, 7.4vw, 52px);
+  line-height: 1.4;
+}
+
+/* ── フッター（黒） ──────────────────────────── */
+.site-foot {
+  padding-block: 52px calc(52px + env(safe-area-inset-bottom));
+}
+.foot-logo { width: 84px; height: auto; display: block; margin-inline: auto; opacity: .8; }
+.foot-tag { margin-top: 18px; font-size: 13.5px; color: var(--muted); }
+.foot-copy { margin-top: 10px; font-size: 12px; color: #8C8C92; }
+
+/* ── レスポンシブ ───────────────────────────── */
+/* 狭い幅では、広い画面前提で入れた強制改行を無効化する */
+@media (max-width: 540px) {
+  /* 見出しの改行は文の切れ目なので残す。本文側だけ解除する */
+  .lead br, .note-muted br { display: none; }
+  h1, h2 { text-wrap: balance; }
+  .card { padding: 24px 20px; }
+  .deflist { padding-inline: 20px; }
+}
+
+@media (min-width: 720px) {
+  :root { --pad: 36px; }
+  .cal-actions { grid-template-columns: repeat(3, 1fr); }
+  .deflist { padding-inline: 32px; }
+  .deflist > div { grid-template-columns: 190px 1fr; align-items: baseline; }
+  .card { padding: 32px 30px; }
+  .grid--2 { grid-template-columns: repeat(2, 1fr); }
+  .faq-a { padding-left: 54px; }
+}
+
+/* 流れ図を横に5つ並べるのは、1列が「フィードバックを」を収められる幅になってから */
+@media (min-width: 900px) {
+  .chain {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+  }
+  .chain li {
+    border-left: 1px solid var(--line);
+    border-top: 4px solid var(--accent);
+    border-radius: 4px 4px 12px 12px;
+    padding-inline: 10px;
+    text-align: center;
+    font-size: 14.5px;
+    display: grid;
+    place-items: center;
+  }
+}
+
+@media (min-width: 1000px) {
+  .grid--3 { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    transition-duration: .001ms !important;
+  }
+}
