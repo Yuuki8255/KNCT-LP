@@ -277,7 +277,8 @@ h2 em,
 /* 文字の段はグラデーション（.video-stage::before）より上に描く */
 .hero > .wrap { position: relative; z-index: 3; }
 
-.hero-logo { width: 120px; height: auto; display: block; margin-inline: auto; }
+/* 一番上のロゴは「KNCT」の文字だけ（UNIVERSITY なし） */
+.hero-logo { width: 124px; height: auto; display: block; margin-inline: auto; }
 /* ロゴと見出しの間に置く、短い線2本（間を少し空けて並べる） */
 .hero .rule {
   width: 76px;
