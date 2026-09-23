@@ -317,10 +317,20 @@ h2 em,
 }
 
 /* 動画を、黒と白の境目にまたがせる。
-   上下の余白を同じにしているので、色の切り替わり（50%）がちょうど動画の真ん中に来る */
+   黒から白へは線で切らずにグラデーションでつなぐ。
+   白（--paper = #FFFFFF）を少しずつ濃くして、途中で帯が見えないようにしている。
+   下の余白は、動画の影が途中で切れない（ヒーローの外で横線にならない）だけ取っている */
 .video-stage {
-  padding-block: 18px;
-  background: linear-gradient(180deg, transparent 50%, var(--paper) 50%);
+  padding-block: 18px 44px;
+  background: linear-gradient(180deg,
+    rgba(255,255,255,0)   6%,
+    rgba(255,255,255,.04) 18%,
+    rgba(255,255,255,.14) 30%,
+    rgba(255,255,255,.32) 42%,
+    rgba(255,255,255,.56) 54%,
+    rgba(255,255,255,.78) 66%,
+    rgba(255,255,255,.93) 78%,
+    #FFFFFF 90%);
 }
 
 .video-frame {
@@ -334,7 +344,7 @@ h2 em,
   background: #17171B;
   box-shadow:
     0 0 0 1px rgba(236,231,211,.22),
-    0 30px 60px -26px rgba(0,0,0,.5);
+    0 18px 40px -18px rgba(0,0,0,.45);
 }
 @supports not (aspect-ratio: 16 / 9) {
   .video-frame { height: 0; padding-top: 56.25%; }
