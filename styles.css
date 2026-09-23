@@ -272,8 +272,9 @@ h2 em,
   pointer-events: none;
   z-index: 1;
 }
-.hero > .wrap,
 .hero > .video-stage { position: relative; z-index: 2; }
+/* 文字の段はグラデーション（.video-stage::before）より上に描く */
+.hero > .wrap { position: relative; z-index: 3; }
 
 .hero-logo { width: 120px; height: auto; display: block; margin-inline: auto; }
 .hero .rule { margin-block: 22px 28px; }
@@ -321,16 +322,33 @@ h2 em,
    白（--paper = #FFFFFF）を少しずつ濃くして、途中で帯が見えないようにしている。
    下の余白は、動画の影が途中で切れない（ヒーローの外で横線にならない）だけ取っている */
 .video-stage {
-  padding-block: 18px 44px;
+  /* 上に伸ばす長さ ＝ 注意書きの下端から、この段の上端まで（STEP表示の余白＋高さ） */
+  --fade-up: calc(clamp(40px, 7vw, 64px) + 40px);
+  padding-block: 18px clamp(56px, 10vw, 112px);
+}
+/* 注意書きのすぐ下から、次のセクションの見出しの手前まで、ゆっくり白くしていく。
+   最初はほとんど変わらず、後半で白に寄せる（途中で帯が見えないよう細かく段階を切る） */
+.video-stage::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(-1 * var(--fade-up));
+  bottom: 0;
+  z-index: -1;
   background: linear-gradient(180deg,
-    rgba(255,255,255,0)   6%,
-    rgba(255,255,255,.04) 18%,
-    rgba(255,255,255,.14) 30%,
-    rgba(255,255,255,.32) 42%,
-    rgba(255,255,255,.56) 54%,
-    rgba(255,255,255,.78) 66%,
-    rgba(255,255,255,.93) 78%,
-    #FFFFFF 90%);
+    rgba(255,255,255,0)   0%,
+    rgba(255,255,255,.02) 16%,
+    rgba(255,255,255,.06) 28%,
+    rgba(255,255,255,.13) 39%,
+    rgba(255,255,255,.24) 49%,
+    rgba(255,255,255,.38) 58%,
+    rgba(255,255,255,.54) 66%,
+    rgba(255,255,255,.70) 74%,
+    rgba(255,255,255,.84) 82%,
+    rgba(255,255,255,.94) 90%,
+    #FFFFFF 97%);
+  pointer-events: none;
 }
 
 .video-frame {
@@ -393,6 +411,9 @@ h2 em,
 .section--alt { background: var(--bg-alt); }
 /* カレンダーが出ている時は、次のセクションとの間に罫を引く（どちらも白のため） */
 #calendar-section:not([hidden]) + .section { border-top: 1px solid var(--line-soft); }
+/* ヒーロー直後のセクションは、上の余白をグラデーション側が持っているので詰める */
+.hero + .section,
+.hero + #calendar-section[hidden] + .section { padding-top: clamp(16px, 3vw, 32px); }
 
 /* ── カード ─────────────────────────────────── */
 .card {
