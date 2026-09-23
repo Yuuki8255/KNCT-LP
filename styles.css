@@ -1,7 +1,7 @@
 /* ══════════════════════════════════════════════════════════════
    KNCT UNIVERSITY — 面談予約完了ページ
    一番上（ロゴ・見出し・動画）は joinknct.com と同じ黒、そこから下は白。
-   アクセントはティファニーブルー。
+   色はロゴと同じクリームと黒だけ。
    色を変えたい時は :root のトークンだけ触れば全体に反映されます。
    ══════════════════════════════════════════════════════════════ */
 
@@ -22,19 +22,18 @@
   --muted:      #62666D;   /* 補足。白地で 5.8:1 / 帯で 5.3:1 */
 
   /* ブランド */
-  --cream:      #ECE7D3;   /* ロゴと同じ色（ロゴは画像なので、色を合わせたい時の参照用） */
+  --cream:      #ECE7D3;   /* ロゴと同じ色。黒い面のアクセント */
 
-  /* アクセント（ティファニーブルー）。役割ごとに濃さを分けている。
-     #81D8D0 そのものは白地だと 1.6:1 しかないので、文字には濃い方を使う */
-  --tiffany:      #81D8D0;  /* 塗り（バッジ・番号・チェック）・線 */
-  --tiffany-mid:  #17A29B;  /* 大きい数字（白地で 3.1:1。大きい文字の基準 3:1 を満たす） */
-  --tiffany-deep: #0B7A75;  /* 小さい文字・アイコン（白地 5.2:1 / 帯 4.7:1） */
-  --tiffany-tint: #E7F6F4;  /* 薄く敷く面 */
-  --on-tiffany:   #06302D;  /* ティファニーの塗りの上に乗せる文字（8.6:1） */
+  /* アクセント。クリームは白地だと 1.2:1 しか差がなく見えないので、
+     白い面では「黒地にクリームの文字」で目立たせ、強調にはクリームのマーカーを引く */
+  --accent:      #111315;  /* 塗り（ラベル・番号・チェック・ボタン） */
+  --on-accent:   #ECE7D3;  /* 塗りの上の文字（14:1） */
+  --accent-tint: #F4F0E4;  /* 薄く敷く面（チップ・見せ場のカード） */
+  --accent-line: #D9CDA8;  /* 白地でも見える濃さのクリーム（顔写真の枠・罫） */
 
-  --em:     var(--tiffany-deep);      /* 見出しの <em> */
-  --marker: rgba(129,216,208,.55);    /* 強調の下に引く蛍光ペン */
-  --focus:  var(--tiffany-deep);
+  --em:     var(--heading);  /* 見出しの <em>。白い面では色ではなくマーカーで強調する */
+  --marker: #E7DDBE;         /* 強調の下に引く、クリームの蛍光ペン */
+  --focus:  var(--heading);
   --shadow: 0 1px 2px rgba(17,19,21,.04), 0 14px 34px -20px rgba(17,19,21,.22);
 
   --maxw: 1080px;
@@ -60,9 +59,11 @@
   --heading:   #FFFFFF;
   --text:      #D4D4D8;   /* 黒地で 14:1 */
   --muted:     #A3A3A9;   /* 黒地で 8.4:1 */
-  --em:        var(--tiffany);
-  --marker:    rgba(129,216,208,.34);
-  --focus:     var(--tiffany);
+  --accent:    var(--cream);
+  --on-accent: #14140F;
+  --em:        var(--cream);
+  --marker:    transparent;   /* 黒い面ではマーカーを引かず、クリームの文字で強調 */
+  --focus:     var(--cream);
   color-scheme: dark;
   background: var(--bg);
   color: var(--text);
@@ -138,10 +139,10 @@ p, li, dd, summary { text-wrap: pretty; }
   align-items: center;
   gap: 9px;
   padding: 9px 18px;
-  border: 1px solid rgba(11,122,117,.18);
+  border: 1px solid var(--accent);
   border-radius: 100px;
-  background: var(--tiffany-tint);
-  color: var(--tiffany-deep);
+  background: var(--accent);
+  color: var(--on-accent);
   font-size: 11.5px;
   font-weight: 800;
   letter-spacing: .2em;
@@ -151,19 +152,18 @@ p, li, dd, summary { text-wrap: pretty; }
 .badge .dot {
   width: 6px; height: 6px;
   border-radius: 50%;
-  background: var(--tiffany-mid);
-  box-shadow: 0 0 0 3px rgba(23,162,155,.18);
+  background: var(--on-accent);
+  box-shadow: 0 0 10px rgba(236,231,211,.8);
 }
-/* 強調したいものはティファニーで塗る */
+/* 黒い面で強調したいものは、クリームで塗る */
 .badge--solid {
-  background: var(--tiffany);
-  border-color: var(--tiffany);
-  color: var(--on-tiffany);
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
   letter-spacing: .12em;
   text-transform: none;
   font-size: 12.5px;
   padding: 10px 20px;
-  box-shadow: 0 10px 30px -12px rgba(129,216,208,.55);
 }
 .badge--solid .badge-check { width: 13px; height: 13px; }
 
@@ -210,7 +210,7 @@ h2 {
   color: var(--heading);
 }
 
-/* セクションを締める一文。<em> は蛍光ペンで塗る */
+/* セクションを締める一文 */
 .closing-line {
   margin: 44px auto 0;
   max-width: var(--measure);
@@ -219,10 +219,11 @@ h2 {
   line-height: 1.85;
   color: var(--heading);
 }
+/* 見出しと締めの一文の強調には、クリームのマーカーを引く（黒い面では透明） */
+h2 em,
 .closing-line em {
-  color: var(--heading);
-  background: linear-gradient(transparent 58%, var(--marker) 58%);
-  padding-inline: .08em;
+  background: linear-gradient(transparent 60%, var(--marker) 60%);
+  padding-inline: .06em;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
 }
@@ -258,7 +259,7 @@ h2 {
   pointer-events: none;
 }
 
-/* 上から落ちる、ティファニーの微光 */
+/* 上から落ちるクリームの微光。joinknct.com のヒーローの空気感 */
 .hero::before {
   content: "";
   position: absolute;
@@ -267,7 +268,7 @@ h2 {
   width: min(1100px, 150%);
   aspect-ratio: 1;
   transform: translateX(-50%);
-  background: radial-gradient(circle, rgba(129,216,208,.11), transparent 62%);
+  background: radial-gradient(circle, rgba(236,231,211,.09), transparent 62%);
   pointer-events: none;
   z-index: 1;
 }
@@ -289,6 +290,7 @@ h2 {
   color: var(--text);
   text-align: left;
 }
+.notice strong { color: var(--cream); }
 
 /* 動画の上のステップ表示 */
 .steplabel {
@@ -306,8 +308,8 @@ h2 {
 }
 .steplabel span {
   flex: none;
-  color: var(--on-tiffany);
-  background: var(--tiffany);
+  color: var(--on-accent);
+  background: var(--accent);
   border-radius: 100px;
   padding: 5px 12px;
   font-size: 12px;
@@ -331,7 +333,7 @@ h2 {
   overflow: hidden;
   background: #17171B;
   box-shadow:
-    0 0 0 1px rgba(129,216,208,.3),
+    0 0 0 1px rgba(236,231,211,.22),
     0 30px 60px -26px rgba(0,0,0,.5);
 }
 @supports not (aspect-ratio: 16 / 9) {
@@ -365,10 +367,10 @@ h2 {
   place-items: center;
   width: 64px; height: 64px;
   border-radius: 50%;
-  background: var(--tiffany);
-  color: var(--on-tiffany);
+  background: var(--accent);
+  color: var(--on-accent);
   margin-bottom: 12px;
-  box-shadow: 0 0 40px rgba(129,216,208,.35);
+  box-shadow: 0 0 40px rgba(236,231,211,.28);
 }
 .video-placeholder .play svg { width: 28px; height: 28px; }
 .video-placeholder-title { font-weight: 700; font-size: 15px; color: var(--heading); }
@@ -391,14 +393,14 @@ h2 {
   box-shadow: var(--shadow);
   text-align: left;
 }
-/* 見せ場のカードは、ティファニーの枠と薄い色を足す */
+/* 見せ場のカードは、黒い枠と薄いクリームを足す */
 .card--hl {
-  border: 1.5px solid var(--tiffany);
-  background: linear-gradient(165deg, var(--tiffany-tint), var(--surface) 62%);
-  box-shadow: 0 1px 2px rgba(17,19,21,.04), 0 24px 48px -26px rgba(11,122,117,.45);
+  border: 1.5px solid var(--accent);
+  background: linear-gradient(165deg, var(--accent-tint), var(--surface) 62%);
+  box-shadow: 0 1px 2px rgba(17,19,21,.04), 0 24px 48px -26px rgba(17,19,21,.35);
 }
 
-/* 01 / 02 … の番号。ティファニーの丸 */
+/* 01 / 02 … の番号。黒い丸にクリームの数字 */
 .num {
   display: inline-grid;
   place-items: center;
@@ -406,8 +408,8 @@ h2 {
   height: 38px;
   padding-inline: 9px;
   border-radius: 100px;
-  background: var(--tiffany);
-  color: var(--on-tiffany);
+  background: var(--accent);
+  color: var(--on-accent);
   font-size: 13.5px;
   font-weight: 800;
   letter-spacing: .04em;
@@ -448,7 +450,7 @@ h2 {
   font-size: clamp(16.5px, 4.3vw, 18px);
   font-weight: 800;
   line-height: 1.6;
-  color: var(--tiffany-deep);
+  color: var(--heading);
 }
 .deflist dd { margin: 0; font-size: 16px; line-height: 1.9; }
 
@@ -473,7 +475,7 @@ h2 {
   line-height: 1.8;
   color: var(--heading);
 }
-/* ティファニーの丸。1行目の高さの真ん中に合わせる */
+/* 黒い丸。1行目の高さの真ん中に合わせる */
 .checklist li::before {
   content: "";
   position: absolute;
@@ -481,7 +483,7 @@ h2 {
   top: calc(var(--py) + .9em - 12px);
   width: 24px; height: 24px;
   border-radius: 50%;
-  background: var(--tiffany);
+  background: var(--accent);
 }
 /* 丸の中のチェック */
 .checklist li::after {
@@ -490,8 +492,8 @@ h2 {
   left: 24.5px;
   top: calc(var(--py) + .9em - 4.5px);
   width: 11px; height: 6px;
-  border-left: 2px solid var(--on-tiffany);
-  border-bottom: 2px solid var(--on-tiffany);
+  border-left: 2px solid var(--on-accent);
+  border-bottom: 2px solid var(--on-accent);
   transform: rotate(-45deg);
 }
 .checklist--tight { --py: 13px; }
@@ -506,13 +508,13 @@ h2 {
 }
 .chips li {
   padding: 10px 20px;
-  border: 1px solid rgba(11,122,117,.2);
+  border: 1px solid var(--accent-line);
   border-radius: 100px;
-  background: var(--tiffany-tint);
+  background: var(--accent-tint);
   font-size: 15px;
   font-weight: 700;
   line-height: 1.5;
-  color: var(--tiffany-deep);
+  color: var(--heading);
 }
 
 /* ── 学ぶ→実行→計測→… ─────────────────────── */
@@ -525,7 +527,7 @@ h2 {
 .chain li {
   padding: 15px 18px;
   border: 1px solid var(--line);
-  border-left: 4px solid var(--tiffany-mid);
+  border-left: 4px solid var(--accent);
   border-radius: 4px 12px 12px 4px;
   background: var(--surface);
   box-shadow: var(--shadow);
@@ -549,7 +551,7 @@ h2 {
   width: 52px; height: 52px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid var(--tiffany);
+  border: 2px solid var(--accent-line);
 }
 .proof-name {
   font-size: 13.5px;
@@ -581,7 +583,7 @@ h2 {
   font-size: clamp(28px, 6.4vw, 34px);
   font-weight: 800;
   line-height: 1.25;
-  color: var(--tiffany-mid);
+  color: var(--heading);
   letter-spacing: .01em;
 }
 .proof-unit { display: block; margin-top: 4px; font-size: 13px; line-height: 1.7; color: var(--muted); }
@@ -613,9 +615,9 @@ h2 {
   margin-bottom: 18px;
 }
 .q-tag--solid {
-  background: var(--tiffany);
-  border-color: var(--tiffany);
-  color: var(--on-tiffany);
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
 }
 .q-text {
   margin-top: 0;
@@ -626,11 +628,11 @@ h2 {
 .q-mark { display: inline-block; margin-right: 10px; }
 .q--bad .q-text { color: var(--muted); }
 .q--good .q-text { color: var(--heading); }
-.q--good .q-mark { color: var(--tiffany-deep); }
+.q--good .q-mark { color: var(--heading); }
 .q-arrow {
   margin: 14px 0;
   font-size: 14px;
-  color: var(--tiffany-mid);
+  color: var(--heading);
   line-height: 1;
 }
 
@@ -664,15 +666,15 @@ h2 {
   box-shadow: var(--shadow);
   transition: background .16s ease, border-color .16s ease, transform .16s ease;
 }
-.btn:hover { background: var(--tiffany-tint); border-color: var(--tiffany-mid); }
+.btn:hover { background: var(--accent-tint); border-color: var(--heading); }
 .btn:active { transform: scale(.99); }
 .btn--primary {
-  background: var(--tiffany);
-  border-color: var(--tiffany);
-  color: var(--on-tiffany);
-  box-shadow: 0 16px 34px -18px rgba(11,122,117,.6);
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+  box-shadow: 0 16px 34px -18px rgba(17,19,21,.55);
 }
-.btn--primary:hover { background: #97E0D9; border-color: #97E0D9; }
+.btn--primary:hover { background: #2A2D31; border-color: #2A2D31; }
 
 /* ── よくある質問（1問ずつ白いカード） ─────── */
 .faq {
@@ -689,7 +691,7 @@ h2 {
   box-shadow: var(--shadow);
   transition: border-color .2s ease;
 }
-.faq details[open] { border-color: rgba(23,162,155,.55); }
+.faq details[open] { border-color: rgba(17,19,21,.45); }
 .faq summary {
   position: relative;
   display: block;
@@ -710,8 +712,8 @@ h2 {
   top: calc(19px + .85em - 13px);
   width: 26px; height: 26px;
   border-radius: 50%;
-  background: var(--tiffany);
-  color: var(--on-tiffany);
+  background: var(--accent);
+  color: var(--on-accent);
   font-family: "Inter", sans-serif;
   font-size: 13px;
   font-weight: 800;
@@ -725,14 +727,14 @@ h2 {
   top: 50%;
   width: 10px; height: 10px;
   margin-top: -8px;
-  border-right: 2px solid var(--tiffany-deep);
-  border-bottom: 2px solid var(--tiffany-deep);
+  border-right: 2px solid var(--heading);
+  border-bottom: 2px solid var(--heading);
   transform: rotate(45deg);
   transition: transform .2s ease;
 }
 .faq details[open] summary::after { transform: rotate(-135deg); margin-top: -2px; }
 @media (hover: hover) {
-  .faq summary:hover { color: var(--tiffany-deep); }
+  .faq summary:hover { color: var(--text); }
 }
 .faq-a { padding: 0 22px 22px 20px; }
 .faq-a p { font-size: clamp(15.5px, 4vw, 16px); line-height: 1.95; }
@@ -743,7 +745,7 @@ h2 {
   padding-block: clamp(76px, 14vw, 128px);
   overflow: hidden;
 }
-/* 下から広がる、ティファニーの淡い光 */
+/* 下から広がる、クリームの淡い光 */
 .closing::before {
   content: "";
   position: absolute;
@@ -752,11 +754,11 @@ h2 {
   width: min(1000px, 150%);
   aspect-ratio: 1;
   transform: translateX(-50%);
-  background: radial-gradient(circle, rgba(129,216,208,.24), transparent 60%);
+  background: radial-gradient(circle, rgba(236,231,211,.6), transparent 60%);
   pointer-events: none;
 }
 .closing > .wrap { position: relative; }
-.closing .rule { height: 2px; border-radius: 2px; background: var(--tiffany); }
+.closing .rule { height: 2px; border-radius: 2px; background: var(--accent-line); }
 .closing-h {
   margin-top: 0;
   font-size: clamp(30px, 7.4vw, 52px);
@@ -799,7 +801,7 @@ h2 {
   }
   .chain li {
     border-left: 1px solid var(--line);
-    border-top: 4px solid var(--tiffany-mid);
+    border-top: 4px solid var(--accent);
     border-radius: 4px 4px 12px 12px;
     padding-inline: 10px;
     text-align: center;
