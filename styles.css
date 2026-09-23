@@ -246,8 +246,8 @@ h2 em,
   padding-top: clamp(48px, 10vw, 88px);
   overflow: hidden;
 }
-/* 集合写真を暗く敷く。暗転のグラデを同じレイヤーに重ねて、
-   写真の明るさに関わらず文字のコントラストが落ちないようにする */
+/* ヒーローの背景写真は、いったん外して黒一色にしている。
+   戻す時は、下のコメントを外す（写真は assets/hero-community.webp に残してある）。
 .hero::after {
   content: "";
   position: absolute;
@@ -258,6 +258,7 @@ h2 em,
     url("/assets/hero-community.webp") center 58% / cover no-repeat;
   pointer-events: none;
 }
+*/
 
 /* 上から落ちるクリームの微光。joinknct.com のヒーローの空気感 */
 .hero::before {
