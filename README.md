@@ -164,6 +164,22 @@ LINE でリンクを送った時のプレビュー画像がこの2行を見て�
 
 ---
 
+## 5.5 画像の出どころ
+
+| ファイル | 元データ |
+|---|---|
+| `assets/hero-community.webp` | `toshikinksj-beep/knct-university-lp` の `assets/community.jpg`（1920x1460 / 665KB）を 1600px・WebP に変換（161KB） |
+| `assets/p-*.webp` | `Yuuki8255/knct-webinar-slides` の `assets/photos/faces/_切り抜き/*.jpg`（512x512の顔中心トリミング）を 176px・WebP に変換（各5〜8KB） |
+| `assets/logo-*.png` | `assets/brand/apple-touch-icon.png` から背景を抜いたもの |
+
+ヒーロー写真は CSS 側（`styles.css` の `.hero::after`）で暗転のグラデーションを
+重ねています。写真そのものは加工していないので、明るさを変えたいときは
+そのグラデーションの数値を触ってください。
+
+差し替えるときは、元画像を同じファイル名で置くのではなく、
+上記の変換（リサイズ + WebP）を通してからにしてください。
+元のJPEGのままだとヒーローだけで665KBあり、LINE内ブラウザで重くなります。
+
 ## 6. まだ埋まっていないところ
 
 以下は KNCT 側の事実が分からないため、あえて書いていません。

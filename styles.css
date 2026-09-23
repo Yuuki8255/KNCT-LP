@@ -190,6 +190,19 @@ h2 {
   padding-block: clamp(48px, 10vw, 88px) clamp(56px, 11vw, 104px);
   overflow: hidden;
 }
+/* 集合写真を暗く敷く。暗転のグラデを同じレイヤーに重ねて、
+   写真の明るさに関わらず文字のコントラストが落ちないようにする */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.86) 0%, rgba(0,0,0,.94) 38%, #000 68%),
+    url("/assets/hero-community.webp") center 58% / cover no-repeat;
+  pointer-events: none;
+}
+
 /* 上から落ちるクリームの微光。joinknct.com のヒーローの空気感 */
 .hero::before {
   content: "";
@@ -201,8 +214,9 @@ h2 {
   transform: translateX(-50%);
   background: radial-gradient(circle, rgba(236,231,211,.09), transparent 62%);
   pointer-events: none;
+  z-index: 1;
 }
-.hero > .wrap { position: relative; }
+.hero > .wrap { position: relative; z-index: 2; }
 
 .hero-logo { width: 120px; height: auto; display: block; margin-inline: auto; }
 .hero .rule { margin-block: 22px 28px; }
@@ -427,13 +441,25 @@ h2 {
 
 /* ── 実績 ───────────────────────────────────── */
 .proof { display: flex; flex-direction: column; }
+.proof-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+.proof-face {
+  flex: none;
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--line);
+}
 .proof-name {
-  font-size: 12px !important;
+  font-size: 13px !important;
   font-weight: 700;
   letter-spacing: .18em;
   line-height: 1;
   color: var(--cream);
-  margin-bottom: 20px;
 }
 .proof dl { display: grid; gap: 16px; }
 .proof dt {
