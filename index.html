@@ -19,37 +19,36 @@
 <link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="/assets/favicon-16.png" sizes="16x16" type="image/png">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
-<meta name="theme-color" content="#FFFFFF">
+<meta name="theme-color" content="#000000">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- 欧文のみ。和文は端末標準（iPhone=ヒラギノ）に任せる。
-     Zen Kaku Gothic New を足すとこのCSSが5KB→345KBになり、LINE内ブラウザで表示が遅れる -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=DM+Sans:wght@400;500;700&display=swap">
+<!-- 欧文のみ。和文は端末標準に任せる（joinknct.com と同じ方針） -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-<header class="site-head">
-  <div class="wrap">
-    <p class="brand">
-      <img src="/assets/logo-dark.png" width="130" height="64" alt="KNCT UNIVERSITY" decoding="async">
-    </p>
-  </div>
-</header>
 
 <main>
 
   <!-- ═══ HERO ═══ -->
   <section class="hero">
     <div class="wrap">
-      <p class="eyebrow eyebrow--onDark">面談予約 完了</p>
-      <h1>面談の予約が完了しました。<br>通話の前に、これを見てください。</h1>
-      <p class="hero-lead">
-面談の前に、ほぼ全員が同じ質問を持っています。それを先に動画で話しました。当日の時間を、基本の説明ではなく<strong>あなたの状況そのもの</strong>に使うためです。
+      <img class="hero-logo" src="/assets/logo-cream.png" width="130" height="64" alt="KNCT UNIVERSITY">
+      <span class="rule" aria-hidden="true"></span>
+
+      <p class="badge badge--solid">
+        <svg class="badge-check" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 8.4l3.8 3.6L13.5 4.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        面談予約 完了
+      </p>
+
+      <h1>面談の予約が完了しました。<br><em><span class="nb">通話の前に、</span><span class="nb">これを見てください。</span></em></h1>
+
+      <p class="lead">
+        面談の前に、ほぼ全員が同じ質問を持っています。それを先に動画で話しました。当日の時間を、基本の説明ではなく<strong>あなたの状況そのもの</strong>に使うためです。
       </p>
 
       <p class="notice">
-面談の枠は、ひとりずつ個別に空けています。都合が悪くなったときは、欠席ではなく<strong>事前にLINEで一言ください</strong>。日程は組み直せます。連絡のないまま欠席された場合、今後のご予約をお受けできなくなることがあります。
+        面談の枠は、ひとりずつ個別に空けています。都合が悪くなったときは、欠席ではなく<strong>事前にLINEで一言ください</strong>。日程は組み直せます。連絡のないまま欠席された場合、今後のご予約をお受けできなくなることがあります。
       </p>
 
       <p class="steplabel"><span>STEP 1 / 3</span>まず、この動画を見てください</p>
@@ -67,11 +66,11 @@
   </section>
 
   <!-- ═══ カレンダー（URLに日時が渡された時だけ表示） ═══ -->
-  <section class="section section--light section--tight" id="calendar-section" hidden>
+  <section class="section section--tight" id="calendar-section" hidden>
     <div class="wrap">
-      <p class="eyebrow">あなたの面談</p>
-      <h2>この日時で確定しています。</h2>
-      <div class="card cal-card">
+      <p class="badge"><span class="dot" aria-hidden="true"></span>YOUR SESSION</p>
+      <h2>この日時で<em>確定</em>しています。</h2>
+      <div class="card card--hl cal-card">
         <p class="cal-date" id="cal-date"></p>
         <p class="cal-meta" id="cal-meta"></p>
         <div class="cal-actions">
@@ -84,119 +83,90 @@
   </section>
 
   <!-- ═══ 面談の前に ═══ -->
-  <section class="section section--light">
+  <section class="section">
     <div class="wrap">
-      <p class="eyebrow">面談の前に</p>
-      <h2>当日までに、<br>この3つだけやってください。</h2>
+      <p class="badge"><span class="dot" aria-hidden="true"></span>BEFORE THE CALL</p>
+      <h2>当日までに、<br><em>この3つだけ</em>やってください。</h2>
 
       <ol class="numlist">
         <li class="card">
-          <span class="num">1</span>
-          <div>
-            <h3>上の動画を見る。</h3>
-            <p>KNCT UNIVERSITY が何なのか、何を学ぶのか、どんな人に向いているのか。ここを先に済ませておけば、面談の時間を全部あなたの話に使えます。</p>
-          </div>
+          <span class="num">01</span>
+          <h3>上の動画を見る。</h3>
+          <p>KNCT UNIVERSITY が何なのか、何を学ぶのか、どんな人に向いているのか。ここを先に済ませておけば、面談の時間を全部あなたの話に使えます。</p>
         </li>
         <li class="card">
-          <span class="num">2</span>
-          <div>
-            <h3>時間通りに来る。</h3>
-            <p>この時間は、あなたのためだけに空けています。静かな場所から、カメラをONにして繋いでください。</p>
-          </div>
+          <span class="num">02</span>
+          <h3>時間通りに来る。</h3>
+          <p>この時間は、あなたのためだけに空けています。静かな場所から、カメラをONにして繋いでください。</p>
         </li>
         <li class="card">
-          <span class="num">3</span>
-          <div>
-            <h3>自分の状況を持ってくる。</h3>
-            <p>今なにをやっていて、何がうまくいっていて、何が止まっているのか。そして何を変えたいのか。具体的であるほど、面談は役に立ちます。</p>
-          </div>
+          <span class="num">03</span>
+          <h3>自分の状況を持ってくる。</h3>
+          <p>今なにをやっていて、何がうまくいっていて、何が止まっているのか。そして何を変えたいのか。具体的であるほど、面談は役に立ちます。</p>
         </li>
       </ol>
 
-      <p class="callout">この面談にどれだけ本気で準備してくるかで、面談の価値は変わります。</p>
+      <p class="closing-line">この面談にどれだけ本気で準備してくるかで、<em>面談の価値は変わります。</em></p>
     </div>
   </section>
 
   <!-- ═══ 面談で話すこと ═══ -->
   <section class="section">
     <div class="wrap">
-      <p class="eyebrow">面談で話すこと</p>
-      <h2>あなたが詰まっている場所を、<br>特定します。</h2>
+      <p class="badge"><span class="dot" aria-hidden="true"></span>ON THE CALL</p>
+      <h2>あなたが<em>詰まっている場所</em>を、<br>特定します。</h2>
 
       <dl class="deflist">
-        <div>
-          <dt>現在地</dt>
-          <dd>今、何をやっているのか。</dd>
-        </div>
-        <div>
-          <dt>目標</dt>
-          <dd>何を実現したいのか。</dd>
-        </div>
-        <div>
-          <dt>ボトルネック</dt>
-          <dd>本当に止めているものは何か。</dd>
-        </div>
-        <div>
-          <dt>スキル</dt>
-          <dd>すでに持っている、価値になり得るもの。</dd>
-        </div>
-        <div>
-          <dt>進む道</dt>
-          <dd>自分の看板で立つのか、誰かの成長を支える側に回るのか。</dd>
-        </div>
+        <div><dt>現在地</dt><dd>今、何をやっているのか。</dd></div>
+        <div><dt>目標</dt><dd>何を実現したいのか。</dd></div>
+        <div><dt>ボトルネック</dt><dd>本当に止めているものは何か。</dd></div>
+        <div><dt>スキル</dt><dd>すでに持っている、価値になり得るもの。</dd></div>
+        <div><dt>進む道</dt><dd>自分の看板で立つのか、誰かの成長を支える側に回るのか。</dd></div>
       </dl>
 
-      <p class="lead">そのうえで、次に取るべき一手を提示します。</p>
+      <p class="closing-line">そのうえで、<em>次に取るべき一手</em>を提示します。</p>
     </div>
   </section>
 
   <!-- ═══ 学ぶこと ═══ -->
-  <section class="section section--light">
+  <section class="section">
     <div class="wrap">
-      <p class="eyebrow">KNCT UNIVERSITY で学ぶこと</p>
-      <h2>KNCT は、ただの<br>コンテンツ講座ではありません。</h2>
-      <p class="lead">今のインターネットビジネスが、実際にどう動いているのかを教えます。</p>
+      <p class="badge"><span class="dot" aria-hidden="true"></span>WHAT YOU LEARN</p>
+      <h2>KNCT は、ただの<br><em>コンテンツ講座ではありません。</em></h2>
+      <p class="lead lead--sm">今のインターネットビジネスが、実際にどう動いているのかを教えます。</p>
 
-      <ol class="numlist">
-        <li class="card">
-          <span class="num">1</span>
-          <div>
-            <h3>価値をつくる</h3>
-            <p>人が本当に困っていることを解決する。</p>
-          </div>
-        </li>
-        <li class="card">
-          <span class="num">2</span>
-          <div>
-            <h3>価値を伝える</h3>
-            <p>コンテンツ、ポジショニング、メッセージ、個人ブランド、セールス。</p>
-          </div>
-        </li>
-        <li class="card">
-          <span class="num">3</span>
-          <div>
-            <h3>価値を回収する</h3>
-            <p>オファー設計、集客、成約、収益化。</p>
-          </div>
-        </li>
-        <li class="card">
-          <span class="num">4</span>
-          <div>
-            <h3>裏側を回す</h3>
-            <p>仕組み、AI、納品、計測、改善。</p>
-          </div>
-        </li>
-      </ol>
+      <div class="grid grid--2">
+        <article class="card">
+          <span class="num">01</span>
+          <h3>価値をつくる</h3>
+          <p>人が本当に困っていることを解決する。</p>
+        </article>
+        <article class="card">
+          <span class="num">02</span>
+          <h3>価値を伝える</h3>
+          <p>コンテンツ、ポジショニング、メッセージ、個人ブランド、セールス。</p>
+        </article>
+        <article class="card">
+          <span class="num">03</span>
+          <h3>価値を回収する</h3>
+          <p>オファー設計、集客、成約、収益化。</p>
+        </article>
+        <article class="card">
+          <span class="num">04</span>
+          <h3>裏側を回す</h3>
+          <p>仕組み、AI、納品、計測、改善。</p>
+        </article>
+      </div>
 
-      <p class="callout">目的はひとつ。<strong>価値ある人間になる。</strong>自分の事業を立ち上げるか、発信者や企業の成長を動かす側になるか。</p>
+      <p class="closing-line">目的はひとつ。<em>価値ある人間になる。</em><br>自分の事業を立ち上げるか、発信者や企業の成長を動かす側になるか。</p>
     </div>
   </section>
 
   <!-- ═══ 向いている人 ═══ -->
   <section class="section">
     <div class="wrap">
-      <p class="eyebrow">対象</p>
-      <h2>KNCT が合うのは、<br>こういう人です。</h2>
+      <p class="badge"><span class="dot" aria-hidden="true"></span>WHO IT'S FOR</p>
+      <h2>KNCT が合うのは、<br><em>こういう人です。</em></h2>
 
       <ul class="checklist">
         <li>今の状況のままで終わりたくないと、はっきり思っている</li>
@@ -207,15 +177,15 @@
         <li>結果に対して、自分で責任を取れる</li>
       </ul>
 
-      <p class="callout callout--muted">逆に、近道・不労所得・全部代わりにやってくれる誰かを探しているなら、ここではありません。</p>
+      <p class="note-muted">逆に、近道・不労所得・全部代わりにやってくれる誰かを探しているなら、ここではありません。</p>
     </div>
   </section>
 
   <!-- ═══ なぜ止まるのか ═══ -->
-  <section class="section section--light">
+  <section class="section">
     <div class="wrap">
-      <p class="eyebrow">本題</p>
-      <h2>足りていないのは、<br>情報ではありません。</h2>
+      <p class="badge"><span class="dot" aria-hidden="true"></span>THE REAL PROBLEM</p>
+      <h2>足りていないのは、<br><em>情報ではありません。</em></h2>
 
       <ul class="chips">
         <li>明確さ</li>
@@ -224,7 +194,7 @@
         <li>仕組み</li>
       </ul>
 
-      <p class="lead">
+      <p class="lead lead--sm">
         コンテンツを見る。投稿を保存する。教材を買う。<br>
         そして、データが取れるところまで動かないまま終わる。
       </p>
@@ -239,17 +209,17 @@
         <li>改善する</li>
       </ol>
 
-      <p class="callout">スキルが結果に変わるのは、この流れの中だけです。</p>
+      <p class="closing-line">スキルが結果に変わるのは、<em>この流れの中だけです。</em></p>
     </div>
   </section>
 
   <!-- ═══ 実績 ═══ -->
   <section class="section">
     <div class="wrap">
-      <p class="eyebrow">実績</p>
-      <h2>すでに、この型で<br>動いている人がいます。</h2>
+      <p class="badge"><span class="dot" aria-hidden="true"></span>REAL STORIES</p>
+      <h2>すでに、この型で<br><em>動いている人がいます。</em></h2>
 
-      <div class="proofs">
+      <div class="grid grid--3 proofs">
         <article class="card proof">
           <h3 class="proof-name">Husky</h3>
           <dl>
@@ -301,20 +271,23 @@
   </section>
 
   <!-- ═══ リフレーム ═══ -->
-  <section class="section section--light">
+  <section class="section">
     <div class="wrap">
-      <p class="eyebrow">面談の前に、ひとつだけ</p>
-      <h2>持ってくる質問を、<br>変えてください。</h2>
+      <p class="badge"><span class="dot" aria-hidden="true"></span>ONE LAST THING</p>
+      <h2>持ってくる質問を、<br><em>変えてください。</em></h2>
 
       <div class="qa">
-        <blockquote class="q q--bad">
-          <p class="q-mark"><span aria-hidden="true">✕</span><span class="sr-only">悪い例</span></p>
-          <p>「どの教材がもらえるんですか？」</p>
-        </blockquote>
-        <blockquote class="q q--good">
-          <p class="q-mark"><span aria-hidden="true">✓</span><span class="sr-only">良い例</span></p>
-          <p>「自分はどのスキルを身につければ、価値ある人間になれますか？」</p>
-        </blockquote>
+        <div class="card q q--bad">
+          <p class="q-tag">よくある質問</p>
+          <p class="q-text"><span class="q-mark" aria-hidden="true">✕</span><span class="sr-only">悪い例</span>「どの教材がもらえるんですか？」</p>
+        </div>
+
+        <p class="q-arrow" aria-hidden="true">▼</p>
+
+        <div class="card card--hl q q--good">
+          <p class="q-tag q-tag--solid">持ってくる質問</p>
+          <p class="q-text"><span class="q-mark" aria-hidden="true">✓</span><span class="sr-only">良い例</span>「自分はどのスキルを身につければ、価値ある人間になれますか？」</p>
+        </div>
       </div>
 
       <p class="sublabel">結局、ゲームはこれだけです。</p>
@@ -327,16 +300,15 @@
         <li>結果を計測する</li>
       </ul>
 
-      <p class="callout">KNCT は、この5つのためだけに作られています。</p>
+      <p class="closing-line">KNCT は、<em>この5つのためだけ</em>に作られています。</p>
     </div>
   </section>
-
 
   <!-- ═══ よくある質問 ═══ -->
   <section class="section">
     <div class="wrap">
-      <p class="eyebrow">面談の前に</p>
-      <h2>みんなが最初に<br>聞くことです。</h2>
+      <p class="badge"><span class="dot" aria-hidden="true"></span>FAQ</p>
+      <h2>みんなが最初に<br><em>聞くことです。</em></h2>
 
       <div class="faq">
         <details open>
@@ -390,12 +362,13 @@
   <!-- ═══ 最後 ═══ -->
   <section class="closing">
     <div class="wrap">
-      <h2>では、面談で。</h2>
-      <p class="closing-lead">
+      <span class="rule" aria-hidden="true"></span>
+      <h2 class="closing-h">では、<em>面談で。</em></h2>
+      <p class="lead">
         予約は確定しています。当日までに上の動画を見て、<br>
         今どこにいて、どこへ行きたいのかを正直に話せる状態で来てください。
       </p>
-      <p class="closing-note">
+      <p class="note-muted note-muted--center">
         KNCT が力になれると判断したら、次のステップを説明します。<br>
         力になれないと判断したら、はっきりそう伝えます。
       </p>
@@ -406,10 +379,9 @@
 
 <footer class="site-foot">
   <div class="wrap">
-    <p class="foot-brand">
-      <img src="/assets/logo-cream.png" width="130" height="64" alt="KNCT UNIVERSITY" loading="lazy" decoding="async">
-    </p>
+    <img class="foot-logo" src="/assets/logo-cream.png" width="130" height="64" alt="KNCT UNIVERSITY" loading="lazy" decoding="async">
     <p class="foot-tag">発信する人ではなく、売上を作る人へ。</p>
+    <p class="foot-copy">© 2026 KNCT UNIVERSITY. All rights reserved.</p>
   </div>
 </footer>
 
