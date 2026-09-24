@@ -201,6 +201,8 @@ h2 {
   line-height: 1.95;
 }
 .lead--sm { font-size: clamp(15.5px, 4vw, 16.5px); }
+/* 1文ずつ行を分けたい時に使う（スマホでも必ず改行される） */
+.lead .line { display: block; }
 
 .sublabel {
   margin-top: 44px;
