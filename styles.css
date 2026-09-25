@@ -275,9 +275,8 @@ h2 em,
   pointer-events: none;
   z-index: 1;
 }
-.hero > .video-stage { position: relative; z-index: 2; }
-/* 文字の段はグラデーション（.video-stage::before）より上に描く */
-.hero > .wrap { position: relative; z-index: 3; }
+.hero > .video-stage,
+.hero > .wrap { position: relative; z-index: 2; }
 
 /* 一番上のロゴは「KNCT」の文字だけ（UNIVERSITY なし） */
 .hero-logo { width: 100px; height: auto; display: block; margin-inline: auto; }
@@ -329,25 +328,19 @@ h2 em,
   letter-spacing: .1em;
 }
 
-/* 動画を、黒と白の境目にまたがせる。
-   黒から白へは線で切らずにグラデーションでつなぐ。
-   白（--paper = #FFFFFF）を少しずつ濃くして、途中で帯が見えないようにしている。
-   下の余白は、動画の影が途中で切れない（ヒーローの外で横線にならない）だけ取っている */
-.video-stage {
-  /* 上に伸ばす長さ ＝ 注意書きの下端から、この段の上端まで（STEP表示の余白＋高さ） */
-  --fade-up: calc(clamp(40px, 7vw, 64px) + 40px);
-  padding-block: 18px clamp(56px, 10vw, 112px);
-}
+/* 動画（見出しと STEP 表示のすぐ下） */
+.video-stage { padding-top: 18px; }
+
+/* 動画の下の、説明文と注意書き */
+.hero-text .lead { margin-top: clamp(36px, 7vw, 52px); }
+
 /* 注意書きのすぐ下から、次のセクションの見出しの手前まで、ゆっくり白くしていく。
-   最初はほとんど変わらず、後半で白に寄せる（途中で帯が見えないよう細かく段階を切る） */
-.video-stage::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: calc(-1 * var(--fade-up));
-  bottom: 0;
-  z-index: -1;
+   最初はほとんど変わらず、後半で白に寄せる（途中で帯が見えないよう細かく段階を切る）。
+   白（--paper = #FFFFFF）を少しずつ濃くしている */
+.hero-fade {
+  position: relative;
+  z-index: 2;
+  height: clamp(200px, 40vw, 360px);
   background: linear-gradient(180deg,
     rgba(255,255,255,0)   0%,
     rgba(255,255,255,.02) 16%,

@@ -43,18 +43,10 @@
 
       <h1>面談の予約が完了しました。<br><em><span class="nb">面談前に</span><span class="nb">こちらを必ずご覧ください。</span></em></h1>
 
-      <p class="lead">
-        <span class="line"><span class="nb">面談では、</span><span class="nb">多くの人が</span><span class="nb">同じ質問を抱えています。</span></span><span class="line"><span class="nb">それらをわかりやすく</span><span class="nb">まとめましたので、</span><span class="nb">先にご確認ください。</span></span>
-      </p>
-
-      <p class="notice">
-        面談の枠は、ひとりずつ個別に空けています。都合が悪くなったときは、欠席ではなく<strong>事前にLINEで一言ください</strong>。日程は組み直せます。連絡のないまま欠席された場合、今後のご予約をお受けできなくなることがありますので、<span class="nb">ご注意ください。</span>
-      </p>
-
       <p class="steplabel"><span>STEP 1 / 3</span>まず、この動画を見てください</p>
     </div>
 
-    <!-- 動画は黒と白の境目にまたがせる（styles.css の .video-stage） -->
+    <!-- 動画 -->
     <div class="video-stage">
       <div class="wrap">
         <div class="video-frame" id="video-frame">
@@ -68,6 +60,19 @@
         </div>
       </div>
     </div>
+
+    <!-- 動画の下に、説明文と注意書き -->
+    <div class="wrap hero-text">
+      <p class="lead">
+        <span class="line"><span class="nb">面談では、</span><span class="nb">多くの人が</span><span class="nb">同じ質問を抱えています。</span></span><span class="line"><span class="nb">それらをわかりやすく</span><span class="nb">まとめましたので、</span><span class="nb">先にご確認ください。</span></span>
+      </p>
+      <p class="notice">
+        面談の枠は、ひとりずつ個別に空けています。都合が悪くなったときは、欠席ではなく<strong>事前にLINEで一言ください</strong>。日程は組み直せます。連絡のないまま欠席された場合、今後のご予約をお受けできなくなることがありますので、<span class="nb">ご注意ください。</span>
+      </p>
+    </div>
+
+    <!-- 注意書きの下から、次のセクションの見出しの手前まで、ゆっくり白くする -->
+    <div class="hero-fade" aria-hidden="true"></div>
   </section>
 
   <!-- ═══ カレンダー（URLに日時が渡された時だけ表示） ═══ -->
