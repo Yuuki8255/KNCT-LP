@@ -384,6 +384,38 @@ h2 em,
 .video-frame iframe:focus-visible,
 .video-frame video:focus-visible { outline: 2px solid var(--focus); outline-offset: -4px; }
 
+/* 自動再生中に重ねる「タップで音声オン」ボタン */
+.video-unmute {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10px 16px 10px 12px;
+  border: 0;
+  border-radius: 100px;
+  background: var(--cream);
+  color: #14140F;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 8px 24px -8px rgba(0,0,0,.6);
+  animation: unmute-pulse 2.4s ease-in-out infinite;
+}
+.video-unmute[hidden] { display: none; }
+.video-unmute svg { width: 20px; height: 20px; flex: none; }
+.video-unmute:focus-visible { outline: 2px solid var(--cream); outline-offset: 3px; }
+/* 気づいてもらえるよう、ゆっくり光らせる */
+@keyframes unmute-pulse {
+  0%, 100% { box-shadow: 0 8px 24px -8px rgba(0,0,0,.6), 0 0 0 0 rgba(236,231,211,.55); }
+  50%      { box-shadow: 0 8px 24px -8px rgba(0,0,0,.6), 0 0 0 8px rgba(236,231,211,0); }
+}
+
 .video-placeholder {
   position: absolute;
   inset: 0;

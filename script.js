@@ -15,6 +15,11 @@ const CONFIG = {
   // .mp4 直リンクの場合、読み込み中に表示される画像（任意）
   VIDEO_POSTER: "/assets/video-poster.webp",
 
+  // ページを開いたら動画を自動で再生するか（true / false）
+  // スマホやLINEでは「音ありの自動再生」は端末側で禁止されているので、音なしで再生し、
+  // 動画の上に「タップで音声オン」のボタンを出します（押すと音ありで最初から再生）。
+  VIDEO_AUTOPLAY: true,
+
   // カレンダーに登録される予定のタイトル・説明・場所
   EVENT_TITLE: "KNCT UNIVERSITY 面談",
   EVENT_DETAILS: "静かな場所から、カメラONで繋いでください。今どこにいて、どこへ行きたいのかを話せる状態で来てください。",
@@ -57,7 +62,8 @@ const CONFIG = {
       return iframe(
         "https://www.youtube-nocookie.com/embed/" +
           encodeURIComponent(youtubeId) +
-          "?rel=0&modestbranding=1&playsinline=1"
+          "?rel=0&modestbranding=1&playsinline=1" +
+          (CONFIG.VIDEO_AUTOPLAY ? "&autoplay=1&mute=1" : "")
       );
     }
 
@@ -65,7 +71,8 @@ const CONFIG = {
     if (host.endsWith("vimeo.com")) {
       const vimeoId = url.pathname.split("/").filter(Boolean)[0];
       if (vimeoId && /^\d+$/.test(vimeoId)) {
-        return iframe("https://player.vimeo.com/video/" + vimeoId + "?title=0&byline=0&portrait=0");
+        return iframe("https://player.vimeo.com/video/" + vimeoId + "?title=0&byline=0&portrait=0" +
+          (CONFIG.VIDEO_AUTOPLAY ? "&autoplay=1&muted=1" : ""));
       }
     }
 
@@ -101,6 +108,68 @@ const CONFIG = {
     if (!embed) return;
     frame.textContent = "";
     frame.appendChild(embed);
+    if (CONFIG.VIDEO_AUTOPLAY && embed.tagName === "VIDEO") autoplayMuted(frame, embed);
+  }
+
+  /* ── 自動再生 ────────────────────────────────────────
+     音ありの自動再生はブラウザが許さないので、音なしで始めて、
+     「タップで音声オン」のボタンを重ねる。押したら音ありで最初から再生し直す。
+     省電力モードなどで自動再生そのものが止められた時は、ボタンを
+     「タップして再生」にして、押したら音ありで再生する。
+     ─────────────────────────────────────────────────── */
+
+  const ICON_MUTED =
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/>' +
+    '<path d="M16 9.5l5 5M21 9.5l-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+  const ICON_PLAY = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5l11 6.5-11 6.5z" fill="currentColor"/></svg>';
+
+  function autoplayMuted(frame, video) {
+    // iOS は属性として付いていないと、音なしでも自動再生しないことがある
+    video.muted = true;
+    video.defaultMuted = true;
+    video.setAttribute("muted", "");
+    video.setAttribute("playsinline", "");
+    video.setAttribute("autoplay", "");
+    video.preload = "auto";
+
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "video-unmute";
+    frame.appendChild(button);
+
+    function show(mode) {
+      button.dataset.mode = mode;
+      button.innerHTML = mode === "unmute"
+        ? ICON_MUTED + "<span>タップで音声オン</span>"
+        : ICON_PLAY + "<span>タップして再生</span>";
+      button.hidden = false;
+    }
+    function hide() { button.hidden = true; }
+
+    button.addEventListener("click", function () {
+      if (button.dataset.mode === "unmute") video.currentTime = 0; // 音ありで最初から
+      video.muted = false;
+      const played = video.play();
+      if (played && played.catch) played.catch(function () {});
+      hide();
+    });
+
+    // コントロールバーから自分で音を出したり再生したりした時は、ボタンを消す
+    video.addEventListener("volumechange", function () { if (!video.muted) hide(); });
+    video.addEventListener("play", function () { if (!video.muted) hide(); });
+    // 止められた後に、音なしで再生が始まった時は「タップで音声オン」に戻す
+    video.addEventListener("playing", function () {
+      if (video.muted && !button.hidden && button.dataset.mode === "play") show("unmute");
+    });
+
+    show("unmute");
+    const attempt = video.play();
+    if (attempt && attempt.catch) {
+      attempt.catch(function () {
+        // 自動再生が止められた（省電力モード・LINE の設定など）
+        if (video.paused) show("play");
+      });
+    }
   }
 
   /* ── カレンダー ──────────────────────────────────────
