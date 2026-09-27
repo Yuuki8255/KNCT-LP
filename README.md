@@ -182,6 +182,7 @@ https://example.com/?start=2026-09-20T14:00&name=山田&dur=45
 |---|---|
 | 本番URL | https://knct-lp.vercel.app/ |
 | Vercelプロジェクト | `knct-lp`（KNCT University チーム） |
+| 計測 | Vercel Web Analytics（`index.html` の最後）。URLの `?` 以降（面談の日時・名前など）は `beforeSend` で消してから送る |
 | 本番ブランチ | `main` |
 | リポジトリ | https://github.com/Yuuki8255/KNCT-LP |
 

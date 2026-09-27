@@ -408,5 +408,21 @@
 </footer>
 
 <script src="script.js"></script>
+
+<!-- Vercel Web Analytics（このページの訪問を数える。URLの ? 以降（面談の日時・名前など）は送らない） -->
+<script>
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  window.va('beforeSend', function (event) {
+    try {
+      var u = new URL(event.url);
+      u.search = '';
+      u.hash = '';
+      return Object.assign({}, event, { url: u.toString() });
+    } catch (e) {
+      return null;
+    }
+  });
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
