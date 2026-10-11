@@ -242,7 +242,10 @@ const CONFIG = {
     const section = document.getElementById("calendar-section");
     if (!section) return;
 
-    const params = new URLSearchParams(location.search);
+    // 計測のために URL の ? 以降を消したあとで再読み込みされても、同じタブなら日時を出せるようにする
+    let saved = "";
+    try { saved = sessionStorage.getItem("knct_ty_q") || ""; } catch (e) {}
+    const params = new URLSearchParams(location.search || saved);
     const rawStart = firstParam(params, START_KEYS);
     const start = parseDate(rawStart);
     if (!start) {

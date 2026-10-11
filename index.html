@@ -409,6 +409,57 @@
 
 <script src="script.js"></script>
 
+<!-- Meta Pixel + Conversions API（joinknct.com と同じ書き方。ブラウザとサーバーで同じ event_id を使い、Meta 側で二重計上しない）
+     URL の ? 以降には面談の日時・お名前が入るので、Meta には送らない:
+     script.js がカレンダーを作り終えたあと（＝この位置）で、? 以降をこのタブの sessionStorage に退避してから URL から消す。 -->
+<script>
+(function(){
+  try {
+    if (location.search) {
+      try { sessionStorage.setItem('knct_ty_q', location.search); } catch (e) {}
+      history.replaceState(history.state, '', location.pathname + location.hash);
+    }
+  } catch (e) {}
+})();
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+// Shared event_id + server-side relay (Conversions API) for deduplicated dual sending
+window.metaEvtId = function(){ return Date.now() + '-' + Math.random().toString(36).slice(2, 10); };
+window.capiSend = function(name, id, custom){
+  try {
+    var fbp = (document.cookie.match(/(?:^|; )_fbp=([^;]+)/) || [])[1];
+    var fbc = (document.cookie.match(/(?:^|; )_fbc=([^;]+)/) || [])[1];
+    var payload = JSON.stringify({ event_name: name, event_id: id, event_source_url: location.origin + location.pathname, fbp: fbp, fbc: fbc, custom_data: custom });
+    if (navigator.sendBeacon) { navigator.sendBeacon('/api/capi', new Blob([payload], { type: 'application/json' })); }
+    else { fetch('/api/capi', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: payload, keepalive: true }); }
+  } catch (e) {}
+};
+fbq('init', '1665016335272219');
+var pvId = metaEvtId();
+fbq('track', 'PageView', {}, { eventID: pvId });
+capiSend('PageView', pvId);
+// 予約完了（Schedule）。同じタブで開き直した時は送らない（1予約＝1回）
+(function(){
+  var KEY = 'knct_schedule_sent';
+  try { if (sessionStorage.getItem(KEY)) return; } catch (e) {}
+  var scId = metaEvtId();
+  var data = { content_name: 'booking_complete', content_category: 'knct_lp_thankyou' };
+  fbq('track', 'Schedule', data, { eventID: scId });
+  capiSend('Schedule', scId, data);
+  try { sessionStorage.setItem(KEY, scId); } catch (e) {}
+})();
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1665016335272219&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
 <!-- Vercel Web Analytics（このページの訪問を数える。URLの ? 以降（面談の日時・名前など）は送らない） -->
 <script>
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
